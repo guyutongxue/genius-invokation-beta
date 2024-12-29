@@ -173,7 +173,4 @@ export const PyroScorpionGuardianStance = status(123034)
  * @description
  * 
  */
-export const Untitled11 = unknown(123035)
-  .since("v9999.beta")
-  // TODO
-  .done();
+const Untitled11 = void 0;

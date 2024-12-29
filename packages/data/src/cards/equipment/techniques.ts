@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { CardDefinition } from "@gi-tcg/core";
-import { card, DamageType, status } from "@gi-tcg/core/builder";
+import { card, DamageType, status, StatusHandle } from "@gi-tcg/core/builder";
 
 /**
  * @id 115102
@@ -197,6 +197,27 @@ export const Iktomisaurus = card(313005)
   .done();
 
 /**
+ * @id 301302
+ * @name 目标
+ * @description
+ * 敌方附属有绒翼龙的角色切换至前台时：自身减少1层效果。
+ */
+export const Target: StatusHandle = status(301302)
+  .variableCanAppend("effect", 1, Infinity)
+  .on("switchActive", (c, e) => {
+    const switchTo = c.of(e.switchInfo.to);
+    return !switchTo.isMine() && switchTo.hasEquipment(Qucusaurus);
+  })
+  .listenToAll()
+  .do((c) => {
+    c.addVariable("effect", -1);
+    if (c.getVariable("effect") <= 0) {
+      c.dispose();
+    }
+  })
+  .done();
+
+/**
  * @id 313006
  * @name 绒翼龙
  * @description
@@ -213,5 +234,24 @@ export const Qucusaurus = card(313006)
   .since("v9999.beta")
   .costSame(1)
   .technique()
-  // TODO
+  .on("enter")
+  .characterStatus(Target, "opp active")
+  .on("modifyAction", (c, e) =>
+    e.action.type === "switchActive" &&
+    (!e.isFast() || e.canDeductCost()) &&
+    c.$(`opp active has status with definition id ${Target}`) &&
+    e.action.to.id === c.self.master().id)
+  .deductOmniCost(1)
+  .setFastAction()
+  .do((c) => {
+    for (const st of c.$$(`opp status with definition id ${Target}`)) {
+      st.dispose();
+    }
+  })
+  .endOn()
+  .provideSkill(3130063)
+  .usage(2)
+  .costSame(1)
+  .switchActive("my next")
+  .characterStatus(Target, "opp active")
   .done();

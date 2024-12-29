@@ -980,5 +980,7 @@ export const DemonwarriorsFeatherMask = card(312032)
   .since("v9999.beta")
   .costVoid(2)
   .artifact()
-  // TODO
+  .on("useSkillOrTechnique", (c, e) => e.isSkillType("technique")) // TODO useTechnique
+  .usagePerRound(1)
+  .gainEnergy(1, "@master")
   .done();

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DiceType, card, combatStatus } from "@gi-tcg/core/builder";
+import { DiceType, card, combatStatus, status } from "@gi-tcg/core/builder";
 import { Satiated } from "../../commons";
 
 /**
@@ -341,6 +341,17 @@ export const GlitteringGemstones = card(333017)
   .done();
 
 /**
+ * @id 303315
+ * @name 咚咚嘭嘭（生效中）
+ * 名称不存在于初始牌组中的牌加入我方手牌时：治疗该角色1点。\n可用次数：3
+ */
+export const PuffPopsInEffect = status(303315)
+// TODO: fix to handCardInserted
+  .on("drawCard", (c, e) => !c.isInInitialPile(e.card))
+  .heal(1, "@master") 
+  .done()
+
+/**
  * @id 333018
  * @name 咚咚嘭嘭
  * @description
@@ -351,5 +362,6 @@ export const PuffPops = card(333018)
   .since("v9999.beta")
   .costSame(1)
   .tags("food")
-  // TODO
+  .food()
+  .characterStatus(PuffPopsInEffect, "@targets.0")
   .done();

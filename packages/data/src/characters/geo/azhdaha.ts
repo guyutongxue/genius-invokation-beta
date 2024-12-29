@@ -303,7 +303,4 @@ export const LunarCyclesUnending = card(226022)
  * @description
  * 
  */
-export const Untitled12 = unknown(126024)
-  .since("v9999.beta")
-  // TODO
-  .done();
+const Untitled12 = void 0;
