@@ -27,10 +27,10 @@ import { BondOfLife } from "../../commons";
 export const NightVigil = status(114121)
   .since("v9999.beta")
   .duration(1)
-  .on("beforeHealed", (c, e) => e.via.definition.id !== HuntersVigil) // TODO: should be cancel
+  .on("cancelHealed", (c, e) => e.via.definition.id !== HuntersVigil)
   .do((c, e) => {
     const value = e.value;
-    e.decreaseHeal(value); // fixme: cancel
+    e.cancel();
     c.characterStatus(BondOfLife, "@master", {
       overrideVariables: {
         usage: value

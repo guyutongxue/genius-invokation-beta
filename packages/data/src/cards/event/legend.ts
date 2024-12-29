@@ -241,7 +241,7 @@ export const FlamesOfWarInEffect = status(300007)
  * 行动阶段开始时：若此牌是场上「斗志」最高的斗争之火，则清空此牌的「斗志」，使我方出战角色本回合造成的伤害+1。
  */
 export const FlamesOfWar = card(300006)
-  .support("item") // TODO: should be null
+  .support(null)
   .variable("spirit", 0)
   .associateExtension(FlamesOfWarExtension)
   .on("enter")

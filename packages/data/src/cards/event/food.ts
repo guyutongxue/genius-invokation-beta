@@ -346,8 +346,7 @@ export const GlitteringGemstones = card(333017)
  * 名称不存在于初始牌组中的牌加入我方手牌时：治疗该角色1点。\n可用次数：3
  */
 export const PuffPopsInEffect = status(303315)
-// TODO: fix to handCardInserted
-  .on("drawCard", (c, e) => !c.isInInitialPile(e.card))
+  .on("handCardInserted", (c, e) => !c.isInInitialPile(e.card))
   .heal(1, "@master") 
   .done()
 
