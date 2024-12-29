@@ -195,3 +195,23 @@ export const Iktomisaurus = card(313005)
     c.selectAndCreateHandCard(candidates);
   })
   .done();
+
+/**
+ * @id 313006
+ * @name 绒翼龙
+ * @description
+ * 入场时：敌方出战角色附属目标。
+ * 附属角色切换为出战角色，且敌方出战角色附属目标时：，如可能，舍弃原本元素骰费用最高的1张手牌，将此次切换视为「快速行动」而非「战斗行动」，少花费1个元素骰，并移除对方所有角色的目标，
+ * 特技：S3130063
+ * 可用次数：2
+ * （角色最多装备1个「特技」）
+ * 【3130061: 】
+ * 【3130062: 】
+ * 【3130063: 迅疾滑翔】切换到下一名角色，敌方出战角色附属目标。
+ */
+export const Qucusaurus = card(313006)
+  .since("v9999.beta")
+  .costSame(1)
+  .technique()
+  // TODO
+  .done();

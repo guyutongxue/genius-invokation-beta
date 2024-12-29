@@ -166,3 +166,14 @@ export const PyroScorpionGuardianStance01 = status(123033)
  */
 export const PyroScorpionGuardianStance = status(123034)
   .reserve();
+
+/**
+ * @id 123035
+ * @name 
+ * @description
+ * 
+ */
+export const Untitled11 = unknown(123035)
+  .since("v9999.beta")
+  // TODO
+  .done();

@@ -10349,5 +10349,150 @@
     "maxEnergy": 2,
     "cardFace": "UI_Gcg_CardFace_Char_Monster_EremiteGrass",
     "icon": "UI_Gcg_Char_MonsterIcon_EremiteGrass"
+  },
+  {
+    "id": 1214,
+    "shareId": 443,
+    "obtainable": true,
+    "sinceVersion": "v9999.beta",
+    "name": "玛拉妮",
+    "englishName": "Mualani",
+    "tags": [
+      "GCG_TAG_ELEMENT_HYDRO",
+      "GCG_TAG_WEAPON_CATALYST",
+      "GCG_TAG_NATION_NATLAN"
+    ],
+    "skills": [
+      {
+        "id": 12141,
+        "type": "GCG_SKILL_TAG_A",
+        "name": "降温处理",
+        "englishName": "Cooling Treatment",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
+        "description": "造成1点水元素伤害。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_HYDRO",
+            "count": 1
+          },
+          {
+            "type": "GCG_COST_DICE_VOID",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 12142,
+        "type": "GCG_SKILL_TAG_E",
+        "name": "踏鲨破浪",
+        "englishName": "Surfshark Wavebreaker",
+        "rawDescription": "自身附属<color=#FFFFFFFF>$[C112142]</color>，然后进入<color=#FFFFFFFF>$[C112141]</color>，并获得2点<color=#FFFFFFFF>「夜魂值」</color>。（角色进入<color=#FFFFFFFF>$[C112141]</color>后不可使用此技能）\\n（附属<color=#FFFFFFFF>$[C112142]</color>的角色可以使用特技：<color=#FFFFFFFF>$[S1121422]</color>）",
+        "description": "自身附属咬咬鲨鱼，然后进入夜魂加持，并获得2点「夜魂值」。（角色进入夜魂加持后不可使用此技能）\n（附属咬咬鲨鱼的角色可以使用特技：S1121422）",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_HYDRO",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 12143,
+        "type": "GCG_SKILL_TAG_Q",
+        "name": "爆瀑飞弹",
+        "englishName": "Boomsharka-laka",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，召唤<color=#FFFFFFFF>$[C112144]</color>。",
+        "description": "造成2点水元素伤害，召唤鲨鲨飞弹。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_HYDRO",
+            "count": 3
+          },
+          {
+            "type": "GCG_COST_ENERGY",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      }
+    ],
+    "hp": 10,
+    "maxEnergy": 2,
+    "cardFace": "UI_Gcg_CardFace_Char_Avatar_Mualani",
+    "icon": "UI_Gcg_Char_AvatarIcon_Mualani"
+  },
+  {
+    "id": 1412,
+    "shareId": 444,
+    "obtainable": true,
+    "sinceVersion": "v9999.beta",
+    "name": "克洛琳德",
+    "englishName": "Clorinde",
+    "tags": [
+      "GCG_TAG_ELEMENT_ELECTRO",
+      "GCG_TAG_WEAPON_SWORD",
+      "GCG_TAG_NATION_FONTAINE",
+      "GCG_TAG_ARKHE_PNEUMA"
+    ],
+    "skills": [
+      {
+        "id": 14121,
+        "type": "GCG_SKILL_TAG_A",
+        "name": "逐影之誓",
+        "englishName": "Oath of Hunting Shadows",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。如果本角色附属<color=#FFFFFFFF>$[C114121]</color>，则此技能少花费1个$[K309]。",
+        "description": "造成1点物理伤害。如果本角色附属夜巡，则此技能少花费1个无色元素。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_ELECTRO",
+            "count": 1
+          },
+          {
+            "type": "GCG_COST_DICE_VOID",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 14122,
+        "type": "GCG_SKILL_TAG_E",
+        "name": "狩夜之巡",
+        "englishName": "Hunter's Vigil",
+        "rawDescription": "自身附属<color=#FFFFFFFF>$[C114121]</color>，移除自身所有<color=#FFFFFFFF>$[C122]</color>。然后根据所移除的层数，造成$[D__KEY__ELEMENT]，并治疗自身。（伤害和治疗最多4点）",
+        "description": "自身附属夜巡，移除自身所有生命之契。然后根据所移除的层数，造成undefined，并治疗自身。（伤害和治疗最多4点）",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_ELECTRO",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 14123,
+        "type": "GCG_SKILL_TAG_Q",
+        "name": "残光将终",
+        "englishName": "Last Lightfall",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，自身附属4层<color=#FFFFFFFF>$[C122]</color>。",
+        "description": "造成3点雷元素伤害，自身附属4层生命之契。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_ELECTRO",
+            "count": 3
+          },
+          {
+            "type": "GCG_COST_ENERGY",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      }
+    ],
+    "hp": 10,
+    "maxEnergy": 2,
+    "cardFace": "UI_Gcg_CardFace_Char_Avatar_Clorinde",
+    "icon": "UI_Gcg_Char_AvatarIcon_Clorinde"
   }
 ]

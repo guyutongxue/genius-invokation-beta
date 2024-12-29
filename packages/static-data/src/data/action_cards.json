@@ -14725,5 +14725,191 @@
     "rawDescription": "我方召唤物造成的伤害+2。\\n<color=#FFFFFFFF>我方生成召唤物后：</color>对所有敌方角色造成1点$[K5]。",
     "description": "我方召唤物造成的伤害+2。\n我方生成召唤物后：对所有敌方角色造成1点穿透伤害。",
     "cardFace": "UI_Gcg_CardFace_Assist_Location_Juelubingji"
+  },
+  {
+    "id": 212141,
+    "shareId": 445,
+    "obtainable": true,
+    "type": "GCG_CARD_MODIFY",
+    "sinceVersion": "v9999.beta",
+    "name": "夜域赐礼·波涛顶底",
+    "englishName": "Night Realm's Gift: Crests and Troughs",
+    "tags": [
+      "GCG_TAG_TALENT"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Modify_Talent_Mualani",
+    "rawDescription": "<color=#FFFFFFFF>装备有此牌的$[A1214]切换为「出战角色」时：</color>触发1个随机我方「召唤物」的「结束阶段」效果。（每回合1次）\\n（牌组中包含$[A1214]，才能加入牌组）",
+    "description": "装备有此牌的夜域赐礼·波涛顶底切换为「出战角色」时：触发1个随机我方「召唤物」的「结束阶段」效果。（每回合1次）\n（牌组中包含夜域赐礼·波涛顶底，才能加入牌组）",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_HYDRO",
+        "count": 1
+      }
+    ],
+    "relatedCharacterId": 1214,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 214121,
+    "shareId": 446,
+    "obtainable": true,
+    "type": "GCG_CARD_MODIFY",
+    "sinceVersion": "v9999.beta",
+    "name": "破夜的明焰",
+    "englishName": "Dark-Shattering Flame",
+    "tags": [
+      "GCG_TAG_TALENT",
+      "GCG_TAG_SLOWLY"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Modify_Talent_Clorinde",
+    "rawDescription": "$[K1]：我方出战角色为<color=#FFFFFFFF>$[A1412]</color>时，装备此牌。\\n$[A1412]装备此牌后，立刻使用一次<color=#FFD780FF>$[S14122]</color>。\\n我方触发$[K214]后:本回合$[A1412]下次造成的伤害+1。(可叠加，最多叠加到+3)\\n（牌组中包含$[A1412]，才能加入牌组）",
+    "description": "战斗行动：我方出战角色为破夜的明焰时，装备此牌。\n破夜的明焰装备此牌后，立刻使用一次S14122。\n我方触发雷元素相关反应后:本回合破夜的明焰下次造成的伤害+1。(可叠加，最多叠加到+3)\n（牌组中包含破夜的明焰，才能加入牌组）",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_ELECTRO",
+        "count": 2
+      }
+    ],
+    "relatedCharacterId": 1412,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 312032,
+    "shareId": 447,
+    "obtainable": true,
+    "type": "GCG_CARD_MODIFY",
+    "sinceVersion": "v9999.beta",
+    "name": "魔战士的羽面",
+    "englishName": "Demon-Warrior's Feather Mask",
+    "tags": [
+      "GCG_TAG_ARTIFACT"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Modify_Artifact_Mozhanshi",
+    "rawDescription": "<color=#FFFFFFFF>附属角色使用特技后：</color>获得1点充能。（每回合1次)\\n（角色最多装备1件「{SPRITE_PRESET#3004}圣遗物」）",
+    "description": "附属角色使用特技后：获得1点充能。（每回合1次)\n（角色最多装备1件「圣遗物」）",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_VOID",
+        "count": 2
+      }
+    ],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 313006,
+    "shareId": 448,
+    "obtainable": true,
+    "type": "GCG_CARD_MODIFY",
+    "sinceVersion": "v9999.beta",
+    "name": "绒翼龙",
+    "englishName": "Qucusaurus",
+    "tags": [
+      "GCG_TAG_VEHICLE"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Modify_Vehicle_RongyiLong",
+    "rawDescription": "<color=#FFFFFFFF>入场时：</color>敌方出战角色附属<color=#FFFFFFFF>$[C301302]</color>。\\n<color=#FFFFFFFF>附属角色切换为出战角色，且敌方出战角色附属<color=#FFFFFFFF>$[C301302]</color>时：</color>，如可能，$[K56]原本元素骰费用最高的1张手牌，将此次切换视为「$[K2]」而非「$[K1]」，少花费1个元素骰，并移除对方所有角色的<color=#FFFFFFFF>$[C301302]</color>，\\n$[K58]：$[S3130063]\\n<color=#FFFFFFFF>$[K3]：2</color>\\n（角色最多装备1个「{SPRITE_PRESET#3008}特技」）",
+    "description": "入场时：敌方出战角色附属目标。\n附属角色切换为出战角色，且敌方出战角色附属目标时：，如可能，舍弃原本元素骰费用最高的1张手牌，将此次切换视为「快速行动」而非「战斗行动」，少花费1个元素骰，并移除对方所有角色的目标，\n特技：S3130063\n可用次数：2\n（角色最多装备1个「特技」）",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_SAME",
+        "count": 1
+      }
+    ],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 321025,
+    "shareId": 449,
+    "obtainable": true,
+    "type": "GCG_CARD_ASSIST",
+    "sinceVersion": "v9999.beta",
+    "name": "「流泉之众」",
+    "englishName": "\"People of the Springs\"",
+    "tags": [
+      "GCG_TAG_PLACE"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Assist_Location_LiuQuan",
+    "rawDescription": "<color=#FFFFFFFF>我方「召唤物」入场时：</color>使其$[K3]+1。\\n<color=#FFFFFFFF>$[K3]：3</color>",
+    "description": "我方「召唤物」入场时：使其可用次数+1。\n可用次数：3",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_SAME",
+        "count": 2
+      }
+    ],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 330010,
+    "shareId": 450,
+    "obtainable": true,
+    "type": "GCG_CARD_EVENT",
+    "sinceVersion": "v9999.beta",
+    "name": "归火圣夜巡礼",
+    "englishName": "Pilgrimage of the Return of the Sacred Flame",
+    "tags": [
+      "GCG_TAG_LEGEND"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Event_Event_ShenyeXunli",
+    "rawDescription": "在双方场上生成<color=#FFFFFFFF>$[C300006]</color>，然后我方场上的<color=#FFFFFFFF>$[C300006]</color>的<color=#FFFFFFFF>「斗志」</color>+1。（<color=#FFFFFFFF>$[C300006]</color>会将各自阵营对对方造成的伤害记录为<color=#FFFFFFFF>「斗志」</color>，每回合行动阶段开始时<color=#FFFFFFFF>「斗志」</color>较高的一方会清空<color=#FFFFFFFF>「斗志」</color>，使当前出战角色在本回合中造成的伤害+1。）\\n（整局游戏只能打出一张「{SPRITE_PRESET#3007}秘传」卡牌；这张牌一定在你的起始手牌中）",
+    "description": "在双方场上生成斗争之火，然后我方场上的斗争之火的「斗志」+1。（斗争之火会将各自阵营对对方造成的伤害记录为「斗志」，每回合行动阶段开始时「斗志」较高的一方会清空「斗志」，使当前出战角色在本回合中造成的伤害+1。）\n（整局游戏只能打出一张「秘传」卡牌；这张牌一定在你的起始手牌中）",
+    "playCost": [
+      {
+        "type": "GCG_COST_LEGEND",
+        "count": 1
+      }
+    ],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 332042,
+    "shareId": 451,
+    "obtainable": true,
+    "type": "GCG_CARD_EVENT",
+    "sinceVersion": "v9999.beta",
+    "name": "燃素充盈",
+    "englishName": "Abundant Phlogiston",
+    "tags": [],
+    "cardFace": "UI_Gcg_CardFace_Event_Event_Ransu",
+    "rawDescription": "<color=#FFFFFFFF>本回合我方下次角色消耗「夜魂值」后：</color>该角色获得1点「夜魂值」。",
+    "description": "本回合我方下次角色消耗「夜魂值」后：该角色获得1点「夜魂值」。",
+    "playCost": [],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
+  },
+  {
+    "id": 333018,
+    "shareId": 452,
+    "obtainable": true,
+    "type": "GCG_CARD_EVENT",
+    "sinceVersion": "v9999.beta",
+    "name": "咚咚嘭嘭",
+    "englishName": "Puff Pops",
+    "tags": [
+      "GCG_TAG_FOOD"
+    ],
+    "cardFace": "UI_Gcg_CardFace_Event_Food_DongDongPengPeng",
+    "rawDescription": "接下来3次名称不存在于初始牌组中的牌加入我方手牌时，目标我方角色治疗自身1点。\\n（每回合每个角色最多食用1次「{SPRITE_PRESET#3101}料理」）",
+    "description": "接下来3次名称不存在于初始牌组中的牌加入我方手牌时，目标我方角色治疗自身1点。\n（每回合每个角色最多食用1次「料理」）",
+    "playCost": [
+      {
+        "type": "GCG_COST_DICE_SAME",
+        "count": 1
+      }
+    ],
+    "relatedCharacterId": null,
+    "relatedCharacterTags": [],
+    "targetList": []
   }
 ]
