@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /** Toggle this when editing beta version. */
-export const IS_BETA = false;
+export const IS_BETA = true;
 
 export const BETA_VERSION = "v9999.0.0-beta";
 
