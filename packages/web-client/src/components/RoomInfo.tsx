@@ -17,9 +17,9 @@ export function RoomInfo(props: RoomInfoProps) {
   const code = () => roomIdToCode(props.id);
   const url = (playerId: string | number) => {
     if (insideRoom()) {
-      return `rooms/${code()}?player=${user()!.id}&action=1`;
+      return `/rooms/${code()}?player=${user()!.id}&action=1`;
     } else {
-      return `rooms/${code()}?player=${playerId}`;
+      return `/rooms/${code()}?player=${playerId}`;
     }
   };
   const [avatarUrl0] = createResource(

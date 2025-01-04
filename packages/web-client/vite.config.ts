@@ -12,7 +12,7 @@ export default defineConfig({
   esbuild: {
     target: "ES2020",
   },
-  base: WEB_CLIENT_BASE_PATH,
+  base: WEB_CLIENT_BASE_PATH.replace(/\/$/, ""),
   plugins: [
     solid(),
     babel({

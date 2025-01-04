@@ -28,10 +28,11 @@ export async function frontend(app: FastifyInstance) {
       prefix: WEB_CLIENT_BASE_PATH,
       wildcard: false,
     });
-    app.get(WEB_CLIENT_BASE_PATH, (_req, reply) => {
+    const baseNoSuffix = WEB_CLIENT_BASE_PATH.replace(/\/$/, "");
+    app.get(baseNoSuffix, (_req, reply) => {
       reply.type("text/html").send(indexHtml);
     });
-    app.get(`${WEB_CLIENT_BASE_PATH}*`, (_req, reply) => {
+    app.get(`${baseNoSuffix}/*`, (_req, reply) => {
       reply.type("text/html").send(indexHtml);
     });
   }
