@@ -24,7 +24,7 @@ import { DetailLogViewer } from "@gi-tcg/detail-log-viewer";
 import { createPlayer } from "./index";
 
 const deck0: DeckConfig = {
-  characters: [1214, 1403, 1203],
+  characters: [1314, 1709, 1203],
   cards: [
     333016, 313006, 212141, 321025, 332042, 223041, 223041, 226031, 226031,
     312009, 312009, 312010, 312010, 313002, 313002, 321002, 321004, 321017,

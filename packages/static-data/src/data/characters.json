@@ -10964,5 +10964,179 @@
     "maxEnergy": 2,
     "cardFace": "UI_Gcg_CardFace_Char_Monster_EremiteGrass",
     "icon": "UI_Gcg_Char_MonsterIcon_EremiteGrass"
+  },
+  {
+    "id": 1314,
+    "shareId": 454,
+    "obtainable": true,
+    "sinceVersion": "v5.3.50-beta",
+    "name": "阿蕾奇诺",
+    "englishName": "Arlecchino",
+    "tags": [
+      "GCG_TAG_ELEMENT_PYRO",
+      "GCG_TAG_WEAPON_POLE",
+      "GCG_TAG_CAMP_FATUI"
+    ],
+    "skills": [
+      {
+        "id": 13141,
+        "type": "GCG_SKILL_TAG_A",
+        "name": "斩首之邀",
+        "englishName": "Invitation to a Beheading",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，若可能，消耗目标至多4层<color=#FFFFFFFF>$[C122]</color>，提高等量伤害。",
+        "description": "造成2点物理伤害，若可能，消耗目标至多4层生命之契，提高等量伤害。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_PYRO",
+            "count": 1
+          },
+          {
+            "type": "GCG_COST_DICE_VOID",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 13142,
+        "type": "GCG_SKILL_TAG_E",
+        "name": "万相化灰",
+        "englishName": "All Is Ash",
+        "rawDescription": "生成3层<color=#FFFFFFFF>$[C113141]</color>，然后造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
+        "description": "生成3层血债勒令，然后造成2点火元素伤害。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_PYRO",
+            "count": 3
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 13143,
+        "type": "GCG_SKILL_TAG_Q",
+        "name": "厄月将升",
+        "englishName": "Balemoon Rising",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，移除自身所有<color=#FFFFFFFF>$[C122]</color>，每移除1层，治疗自身1点。",
+        "description": "造成4点火元素伤害，移除自身所有生命之契，每移除1层，治疗自身1点。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_PYRO",
+            "count": 3
+          },
+          {
+            "type": "GCG_COST_ENERGY",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 13144,
+        "type": "GCG_SKILL_TAG_PASSIVE",
+        "name": "唯厄月可知晓",
+        "englishName": "The Balemoon Alone May Know",
+        "rawDescription": "角色不会受到<color=#FFFFFFFF>$[S13143]</color>以外的治疗。\\n<color=#FFFFFFFF>自身附属<color=#FFFFFFFF>$[C122]</color>时：</color>角色造成的$[K100]变为$[K103]。",
+        "description": "角色不会受到S13143以外的治疗。\n自身附属生命之契时：角色造成的物理伤害变为火元素伤害。",
+        "playCost": [],
+        "keyMap": {}
+      },
+      {
+        "id": 13146,
+        "type": "GCG_SKILL_TAG_PASSIVE",
+        "name": "唯厄月可知晓",
+        "englishName": "The Balemoon Alone May Know",
+        "rawDescription": "角色不会受到<color=#FFFFFFFF>$[S13143]</color>以外的治疗。\\n<color=#FFFFFFFF>自身附属<color=#FFFFFFFF>$[C122]</color>时：</color>角色造成的$[K100]变为$[K103]。",
+        "description": "角色不会受到S13143以外的治疗。\n自身附属生命之契时：角色造成的物理伤害变为火元素伤害。",
+        "playCost": [],
+        "keyMap": {}
+      },
+      {
+        "id": 13147,
+        "type": "GCG_SKILL_TAG_PASSIVE",
+        "name": "唯厄月可知晓",
+        "englishName": "The Balemoon Alone May Know",
+        "rawDescription": "角色不会受到<color=#FFFFFFFF>$[S13143]</color>以外的治疗。\\n<color=#FFFFFFFF>自身附属<color=#FFFFFFFF>$[C122]</color>时：</color>角色造成的$[K100]变为$[K103]。",
+        "description": "角色不会受到S13143以外的治疗。\n自身附属生命之契时：角色造成的物理伤害变为火元素伤害。",
+        "playCost": [],
+        "keyMap": {}
+      }
+    ],
+    "hp": 10,
+    "maxEnergy": 2,
+    "cardFace": "UI_Gcg_CardFace_Char_Avatar_Arlecchino",
+    "icon": "UI_Gcg_Char_AvatarIcon_Arlecchino"
+  },
+  {
+    "id": 1709,
+    "shareId": 455,
+    "obtainable": true,
+    "sinceVersion": "v5.3.50-beta",
+    "name": "基尼奇",
+    "englishName": "Kinich",
+    "tags": [
+      "GCG_TAG_ELEMENT_DENDRO",
+      "GCG_TAG_WEAPON_CLAYMORE",
+      "GCG_TAG_NATION_NATLAN"
+    ],
+    "skills": [
+      {
+        "id": 17091,
+        "type": "GCG_SKILL_TAG_A",
+        "name": "夜阳斗技",
+        "englishName": "Nightsun Style",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
+        "description": "造成2点物理伤害。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_DENDRO",
+            "count": 1
+          },
+          {
+            "type": "GCG_COST_DICE_VOID",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 17092,
+        "type": "GCG_SKILL_TAG_E",
+        "name": "悬猎·游骋高狩",
+        "englishName": "Canopy Hunter: Riding High",
+        "rawDescription": "选一个我方角色与其交换位置，附属<color=#FFFFFFFF>$[C117091]</color>并进入<color=#FFFFFFFF>$[C117092]</color>。然后造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
+        "description": "选一个我方角色与其交换位置，附属钩索链接并进入夜魂加持。然后造成2点草元素伤害。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_DENDRO",
+            "count": 3
+          }
+        ],
+        "keyMap": {}
+      },
+      {
+        "id": 17093,
+        "type": "GCG_SKILL_TAG_Q",
+        "name": "向伟大圣龙致意",
+        "englishName": "Hail to the Almighty Dragonlord",
+        "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，生成<color=#FFFFFFFF>$[C117093]</color>。",
+        "description": "造成1点草元素伤害，生成伟大圣龙阿乔。",
+        "playCost": [
+          {
+            "type": "GCG_COST_DICE_DENDRO",
+            "count": 3
+          },
+          {
+            "type": "GCG_COST_ENERGY",
+            "count": 2
+          }
+        ],
+        "keyMap": {}
+      }
+    ],
+    "hp": 10,
+    "maxEnergy": 2,
+    "cardFace": "UI_Gcg_CardFace_Char_Avatar_Kinich",
+    "icon": "UI_Gcg_Char_AvatarIcon_Kinich"
   }
 ]

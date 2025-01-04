@@ -4,12 +4,12 @@
 // it under the terms of the GNU Affero General Public License as
 // published by the Free Software Foundation, either version 3 of the
 // License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -151,9 +151,7 @@ export const [MintyMeatRolls] = card(333008)
  * @description
  * 本回合无法通过「料理」复苏角色。
  */
-export const ReviveOnCooldown = combatStatus(303307)
-  .oneDuration()
-  .done();
+export const ReviveOnCooldown = combatStatus(303307).oneDuration().done();
 
 /**
  * @id 333009
@@ -166,7 +164,9 @@ export const TeyvatFriedEgg = card(333009)
   .since("v3.7.0")
   .costSame(2)
   .tags("food")
-  .filter((c) => !c.$(`my combat status with definition id ${ReviveOnCooldown}`))
+  .filter(
+    (c) => !c.$(`my combat status with definition id ${ReviveOnCooldown}`),
+  )
   .addTarget("my defeated characters")
   .heal(1, "@targets.0", { kind: "revive" })
   .characterStatus(Satiated, "@targets.0")
@@ -352,4 +352,20 @@ export const [PuffPops] = card(333018)
   .on("handCardInserted", (c, e) => !c.isInInitialPile(e.card))
   .usage(3)
   .heal(1, "@master") 
+  .done();
+
+/**
+ * @id 333019
+ * @name 温泉时光
+ * @description
+ * 治疗目标角色1点，我方场上每有一个召唤物，则额外治疗1点。
+ * （每回合每个角色最多食用1次「料理」）
+ */
+export const HotSpringOclock = card(333019)
+  .since("v5.3.50-beta")
+  .costSame(1)
+  .food()
+  .do((c) => {
+    c.heal(1 + c.$$(`my summons`).length, "@targets.0");
+  })
   .done();

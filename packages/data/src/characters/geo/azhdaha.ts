@@ -296,3 +296,11 @@ export const LunarCyclesUnending = card(226022)
     }
   })
   .done();
+
+/**
+ * @id 126024
+ * @name 
+ * @description
+ * 
+ */
+export const Untitled12 = void 0;

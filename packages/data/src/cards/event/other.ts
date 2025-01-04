@@ -1656,3 +1656,18 @@ export const [AbundantPhlogiston] = card(332042)
     }
   })
   .done();
+
+/**
+ * @id 332043
+ * @name 小嵴锋龙！发现宝藏！
+ * @description
+ * 向双方牌组中放入2张燃素充盈，随后双方各抓2张牌。
+ */
+export const LittleTepetlisaurTreasureHunterAtLarge = card(332043)
+  .since("v5.3.50-beta")
+  .costSame(1)
+  .createPileCards(AbundantPhlogiston, 2, "random", "my")
+  .createPileCards(AbundantPhlogiston, 2, "random", "opp")
+  .drawCards(2, { who: "my" })
+  .drawCards(2, { who: "opp" })
+  .done();
