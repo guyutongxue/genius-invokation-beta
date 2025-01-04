@@ -17,6 +17,9 @@ jobs:
   Build-Core:
     name: ⚙️ Build TypeScript Core
     runs-on: ubuntu-latest
+    env:
+      SERVER_HOST: gi.xqm32.org
+      WEB_CLIENT_BASE_PATH: /beta/
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
