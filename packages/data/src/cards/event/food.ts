@@ -340,6 +340,7 @@ export const GlitteringGemstones = card(333017)
 /**
  * @id 303315
  * @name 咚咚嘭嘭（生效中）
+ * @description
  * 名称不存在于初始牌组中的牌加入我方手牌时：治疗该角色1点。
  * 可用次数：3
  */
