@@ -30,6 +30,7 @@ import "@gi-tcg/deck-builder/style.css";
 import { useGuestDecks } from "../guest";
 import { DeckInfo } from "./Decks";
 import { useAuth } from "../auth";
+import { unwrap } from "solid-js/store";
 
 export function EditDeck() {
   const params = useParams();
@@ -50,7 +51,12 @@ export function EditDeck() {
     cards: [],
   });
   const [userDeckData] = createResource(() =>
-    axios.get(`decks/${deckId}`).then((r) => r.data),
+    isNew
+      ? void 0
+      : axios
+          .get(`decks/${deckId}`)
+          .then((r) => r.data)
+          .catch(() => void 0),
   );
 
   createEffect(() => {
@@ -67,7 +73,7 @@ export function EditDeck() {
       deckInfo = found;
     }
     if (deckInfo) {
-      setDeckValue(deckInfo);
+      setDeckValue(unwrap(deckInfo));
       setDeckName(deckInfo.name);
       setSearchParams({ name: null }, { replace: true });
     }
