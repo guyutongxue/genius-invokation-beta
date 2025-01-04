@@ -39,16 +39,18 @@ export const GrappleLink = status(117091)
   })
   .on("reaction", (c, e) => e.reactionInfo.type === Reaction.Burning &&
     e.caller.definition.type === "character" &&
+    c.of<"character">(e.caller).isMine() &&
     e.caller.id !== c.self.master().id)
-    .do((c) => {
-      const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
-      if (nightsoul) {
-        c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-        if (c.of(nightsoul).getVariable("nightsoul") === 2) {
-          c.self.master().addStatus(GrapplePrepare);
-        }
+  .listenToAll()
+  .do((c) => {
+    const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
+    if (nightsoul) {
+      c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
+      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
+        c.self.master().addStatus(GrapplePrepare);
       }
-    })
+    }
+  })
   .done();
 
 /**

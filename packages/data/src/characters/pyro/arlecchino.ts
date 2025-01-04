@@ -52,7 +52,7 @@ export const InvitationToABeheading = skill(13141)
     const bond = c.$(`status with definition id ${BondOfLife} at opp active`);
     if (bond) {
       increasedValue = Math.min(4, bond.getVariable("usage"));
-      bond.addVariable("usage", -increasedValue);
+      c.consumeUsage(increasedValue, bond.state);
     }
     c.damage(DamageType.Physical, 2 + increasedValue);
   })
