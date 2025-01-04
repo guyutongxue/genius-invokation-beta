@@ -1,5 +1,45 @@
-export function getAvatarUrl(id: number) {
-  return `https://avatars.githubusercontent.com/u/${id}?v=4`;
+// Copyright (C) 2024 Guyutongxue
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+import { Deck, idToShareId } from "@gi-tcg/utils";
+
+export interface PlayerInfo {
+  isGuest: boolean;
+  id: number | string;
+  name: string;
+  deck: Deck;
+}
+
+export function getAvatarUrl(userId: number) {
+  return `https://avatars.githubusercontent.com/u/${userId}?v=4`;
+}
+
+function hashCode(s: string) {
+  let h = 0;
+  for(let i = 0; i < s.length; i++)
+      h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+  return h;
+}
+
+export function getPlayerAvatarUrl(player: PlayerInfo) {
+  if (player.isGuest) {
+    const hash = Math.abs(hashCode(player.name));
+    return `/avatars/${AVATARS[hash % AVATARS.length]}`;
+  } else {
+    return getAvatarUrl(player.id as number);
+  }
 }
 
 export async function copyToClipboard(content: string) {
@@ -21,9 +61,9 @@ export async function copyToClipboard(content: string) {
 }
 
 export function roomIdToCode(id: number) {
-  return String(((id + 1) * 48271) % 1_000_000).padStart(6, "0");
+  return String(id).padStart(4, "0");
 }
 
 export function roomCodeToId(code: string) {
-  return (Number(code) * 371631 - 1) % 1_000_000;
+  return Number.parseInt(code, 10);
 }
