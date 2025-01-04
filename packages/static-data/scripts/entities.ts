@@ -83,7 +83,7 @@ export async function collateEntities(langCode: string) {
     }
 
     const id = obj.id;
-    if ([50, 51, 52, 53, 54, 17].includes(Math.floor(id / 10000))) {
+    if ([50, 51, 52, 53, 54, 17, 18].includes(Math.floor(id / 10000))) {
       // 热斗模式
       continue;
     }
@@ -154,7 +154,9 @@ export async function collateEntities(langCode: string) {
     };
 
     if (type === "GCG_CARD_SUMMON") {
-      const cardPrefabName = xcardview.find((e) => e.id === obj.id)!.cardPrefabName;
+      const cardPrefabName = xcardview.find(
+        (e) => e.id === obj.id,
+      )!.cardPrefabName;
       data.cardFace = `UI_${cardPrefabName}`;
     }
     result.push(data);

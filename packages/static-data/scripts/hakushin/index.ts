@@ -309,12 +309,14 @@ for (const [idStr, { type, EN: title }] of Object.entries(cardsAndChars)) {
   }
 }
 
-const eventCards = [...oldActionCards, ...newActionCards].filter((c) => c.type === "GCG_CARD_EVENT");
+const eventCards = [...oldActionCards, ...newActionCards].filter(
+  (c) => c.type === "GCG_CARD_EVENT",
+);
 
 console.log("Collating entities:");
 for (const [idStr, { Name, Desc }] of Object.entries(entities)) {
   const id = Number(idStr);
-  if ([50, 51, 52, 53, 54, 17].includes(Math.floor(id / 10_000))) {
+  if ([50, 51, 52, 53, 54, 17, 18].includes(Math.floor(id / 10000))) {
     // 热斗模式
     continue;
   }
