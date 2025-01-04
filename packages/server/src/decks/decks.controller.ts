@@ -20,6 +20,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
@@ -117,7 +118,11 @@ export class DecksController {
     @User() userId: number,
     @Param("deckId", ParseIntPipe) deckId: number,
   ) {
-    return await this.decks.getDeck(userId, deckId);
+    const deck = await this.decks.getDeck(userId, deckId);
+    if (deck === null) {
+      throw new NotFoundException();
+    }
+    return deck;
   }
 
 

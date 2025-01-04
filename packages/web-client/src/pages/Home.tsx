@@ -101,8 +101,8 @@ export function Home() {
   onMount(async () => {
     if (searchParams.token) {
       localStorage.setItem("accessToken", searchParams.token);
+      setSearchParams({ token: null });
       await refresh();
-      navigate("/");
     }
   });
 

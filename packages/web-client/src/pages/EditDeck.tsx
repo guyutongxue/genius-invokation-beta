@@ -51,19 +51,14 @@ export function EditDeck() {
     cards: [],
   });
   const [userDeckData] = createResource(() =>
-    isNew
-      ? void 0
-      : axios
-          .get(`decks/${deckId}`)
-          .then((r) => r.data)
-          .catch(() => void 0),
+    isNew ? void 0 : axios.get(`decks/${deckId}`).then((r) => r.data),
   );
 
   createEffect(() => {
     if (isNew) {
       return;
     }
-    let deckInfo: DeckInfo = userDeckData();
+    let deckInfo: DeckInfo = userDeckData.error ? void 0 : userDeckData();
     const { type } = status();
     if (type === "guest") {
       const found = guestDecks().find((d) => d.id === deckId);
@@ -295,13 +290,13 @@ export function EditDeck() {
         </div>
         <Switch>
           <Match when={userDeckData.loading}>正在加载中...</Match>
-          <Match when={status().type === "user" && userDeckData.error}>
+          <Match when={status().type !== "guest" && userDeckData.error}>
             加载失败：{" "}
             {userDeckData.error instanceof AxiosError
               ? userDeckData.error.response?.data.message
               : userDeckData.error}
           </Match>
-          <Match when={true}>
+          <Match when={status().type !== "notLogin"}>
             <DeckBuilder
               class="min-h-0 h-full w-full"
               deck={deckValue()}
