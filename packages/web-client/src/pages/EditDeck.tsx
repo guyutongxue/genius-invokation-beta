@@ -26,8 +26,7 @@ import { DeckInfo } from "./Decks";
 export function EditDeck() {
   const params = useParams();
   const guestInfo = useGuestInfo();
-  const [guestDecks, { addGuestDeck, updateGuestDeck, removeGuestDeck }] =
-    useGuestDecks();
+  const [guestDecks, { addGuestDeck, updateGuestDeck }] = useGuestDecks();
   const [searchParams, setSearchParams] = useSearchParams();
   const isNew = params.id === "new";
   const deckId = Number(params.id);
@@ -171,8 +170,6 @@ export function EditDeck() {
           await axios.post("decks", deckInfo);
         }
         setDirty(false);
-        // navigate(`../${data.id}`);
-        navigate("..");
       } else {
         if (guestInfo()) {
           await updateGuestDeck(deckId, { ...deck });
@@ -224,7 +221,13 @@ export function EditDeck() {
                 <button
                   class="flex-shrink-0 btn btn-solid-green min-w-22"
                   disabled={!valid() || uploading()}
-                  onClick={saveDeck}
+                  onClick={async () => {
+                    if (await saveDeck()) {
+                      if (isNew) {
+                        navigateBack();
+                      }
+                    }
+                  }}
                 >
                   <Switch>
                     <Match when={uploading()}>
