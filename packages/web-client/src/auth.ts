@@ -37,32 +37,34 @@ type AuthStatus = UserInfo | GuestInfo | NotLogin;
 export interface Auth {
   readonly status: Accessor<AuthStatus>;
   readonly loading: Accessor<boolean>;
-  readonly error: Accessor<boolean>;
+  readonly error: Accessor<any>;
   readonly refresh: () => Promise<void>;
   readonly loginGuest: (name: string) => void;
   readonly setGuestId: (id: string) => void;
   readonly logout: () => Promise<void>;
 }
 
-const [user, { refetch: refetchUser }] = createResource<UserInfo | null>(() =>
-  axios.get<UserInfo | null>("users/me").then(
-    ({ data }) =>
-      data && {
-        ...data,
-        type: "user",
-        name: data.name ?? data.login,
-      },
-  ),
+const [user, { refetch: refetchUser }] = createResource<UserInfo | NotLogin>(
+  () =>
+    axios.get<UserInfo>("users/me").then(({ data }) =>
+      data
+        ? {
+            ...data,
+            type: "user",
+            name: data.name ?? data.login,
+          }
+        : NOT_LOGIN,
+    ),
 );
 
 export const useAuth = (): Auth => {
   const [guestInfo, setGuestInfo] = useGuestInfo();
   return {
     status: () => {
-      return guestInfo() ?? user() ?? NOT_LOGIN;
+      return guestInfo() ?? (user.state === "ready" ? user() : NOT_LOGIN);
     },
     loading: () => guestInfo() === null && user.loading,
-    error: () => guestInfo() === null && user.error,
+    error: () => (guestInfo() === null ? user.error : void 0),
     refresh: async () => {
       refetchUser();
     },

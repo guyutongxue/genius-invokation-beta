@@ -13,13 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import {
-  For,
-  Match,
-  Switch,
-  createResource,
-  Accessor,
-} from "solid-js";
+import { For, Match, Switch, createResource, Accessor } from "solid-js";
 import { Layout } from "../layouts/Layout";
 import axios from "axios";
 import { A } from "@solidjs/router";
@@ -43,7 +37,7 @@ interface DecksResponse {
 export interface UseDecksResult {
   readonly decks: Accessor<DecksResponse>;
   readonly loading: Accessor<boolean>;
-  readonly error: Accessor<boolean>;
+  readonly error: Accessor<any>;
   readonly refetch: () => void;
 }
 
@@ -66,14 +60,14 @@ export function useDecks(): UseDecksResult {
           data,
           count: data.length,
         };
-      } else if (type === "user") {
+      } else if (type === "user" && userDecks.state === "ready") {
         return userDecks();
       } else {
         return EMPTY;
       }
     },
     loading: () => status().type === "user" && userDecks.loading,
-    error: () => status().type === "user" && userDecks.error,
+    error: () => status().type === "user" ? userDecks.error : void 0,
     refetch,
   };
 }
@@ -91,7 +85,7 @@ export function Decks() {
         </div>
         <Switch>
           <Match when={loading()}>正在加载中...</Match>
-          <Match when={error()}>加载失败，请刷新页面重试</Match>
+          <Match when={error()}>加载失败：{error()?.message ?? String(error())}</Match>
           <Match when={true}>
             <ul class="flex flex-row flex-wrap gap-3">
               <For

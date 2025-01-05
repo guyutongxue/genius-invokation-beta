@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";
 import axios from "axios";
@@ -30,6 +30,7 @@ export class AuthService {
     private users: UsersService,
     private jwtService: JwtService,
   ) {}
+  private logger = new Logger(AuthService.name);
 
   private async getGitHubId(code: string) {
     const response = await axios.post(
@@ -43,10 +44,15 @@ export class AuthService {
         headers: {
           Accept: "application/json",
         },
+        validateStatus: () => true, // don't throw
       },
     );
     if (response.status !== 200) {
-      throw new UnauthorizedException();
+      this.logger.error("Code exchange failure");
+      this.logger.error(response.data);
+      throw new UnauthorizedException(
+        `code exchange failure: ${response.data?.message}`,
+      );
     }
     const accessToken = response.data.access_token;
     const userResponse = await axios.get(GET_USER_API_URL, {
@@ -55,9 +61,14 @@ export class AuthService {
         Accept: `application/vnd.github+json`,
         "X-GitHub-Api-Version": "2022-11-28",
       },
+      validateStatus: () => true, // don't throw
     });
     if (userResponse.status !== 200) {
-      throw new UnauthorizedException();
+      this.logger.error("Get User detail failure");
+      this.logger.error(response.data);
+      throw new UnauthorizedException(
+        `get user detail failure: ${userResponse.data?.message}`,
+      );
     }
     return {
       id: userResponse.data.id,

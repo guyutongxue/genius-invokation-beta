@@ -21,6 +21,7 @@ import {
   For,
   createSignal,
   onMount,
+  createEffect,
 } from "solid-js";
 import { Layout } from "../layouts/Layout";
 import { A, useNavigate, useSearchParams } from "@solidjs/router";
@@ -34,7 +35,13 @@ import { Login } from "../components/Login";
 import { useAuth } from "../auth";
 
 export function Home() {
-  const { status, loading: userLoading, error: userError, refresh } = useAuth();
+  const {
+    status,
+    loading: userLoading,
+    error: userError,
+    refresh,
+    logout,
+  } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams<{ token: string }>();
   const { decks, loading: decksLoading, error: decksError } = useDecks();
@@ -114,8 +121,16 @@ export function Home() {
             <div class="text-gray-500">Loading now, please wait...</div>
           </Match>
           <Match when={userError()}>
-            <div class="text-red-300">
-              Failed to load user info, please contact admin
+            <div class="text-red-500">
+              <p>
+                用户信息加载失败：{userError()?.message ?? String(userError())}
+              </p>
+              <p>
+                请尝试{" "}
+                <button class="btn btn-outline-red" onClick={logout}>
+                  退出登录
+                </button>
+              </p>
             </div>
           </Match>
           <Match when={isLogin()}>
@@ -139,7 +154,10 @@ export function Home() {
                       <div class="text-gray-500">牌组信息加载中…</div>
                     </Match>
                     <Match when={decksError()}>
-                      <div class="text-gray-500">牌组信息加载失败</div>
+                      <div class="text-gray-500">
+                        牌组信息加载失败：
+                        {decksError()?.message ?? String(decksError())}
+                      </div>
                     </Match>
                     <Match when={true}>
                       <div class="flex flex-col gap-2">

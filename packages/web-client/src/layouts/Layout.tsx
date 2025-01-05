@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { JSX } from "solid-js";
+import { ErrorBoundary, JSX } from "solid-js";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
@@ -30,8 +30,15 @@ export function Layout(props: LayoutProps) {
         class="flex-grow w-full p-8 mt-16"
         classList={{ "min-h-0": props.mainFlex }}
       >
-        {props.children}
+        <ErrorBoundary
+          fallback={(err) => (
+            <div class="text-red-500">{err?.message ?? String(err)}</div>
+          )}
+        >
+          {props.children}
+        </ErrorBoundary>
       </main>
+
       <Footer />
     </div>
   );
