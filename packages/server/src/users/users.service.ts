@@ -13,10 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import {
-  Injectable,
-  type OnModuleInit,
-} from "@nestjs/common";
+import { Injectable, Logger, type OnModuleInit } from "@nestjs/common";
 import { PrismaService } from "../db/prisma.service";
 import axios from "axios";
 import { GET_USER_API_URL } from "../auth/auth.service";
@@ -31,6 +28,8 @@ export interface UserInfo {
 @Injectable()
 export class UsersService implements OnModuleInit {
   constructor(private prisma: PrismaService) {}
+
+  private logger = new Logger(UsersService.name);
 
   async onModuleInit() {}
 
@@ -47,8 +46,11 @@ export class UsersService implements OnModuleInit {
         Accept: `application/vnd.github+json`,
         "X-GitHub-Api-Version": "2022-11-28",
       },
+      validateStatus: () => true, // don't throw
     });
     if (userResponse.status !== 200) {
+      this.logger.error("Get User detail failure");
+      this.logger.error(userResponse.data);
       return null;
     }
     return {
