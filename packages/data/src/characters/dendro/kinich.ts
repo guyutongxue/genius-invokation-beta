@@ -19,15 +19,17 @@ import { character, skill, card, DamageType, status, summon, Reaction } from "@g
  * @id 117091
  * @name 钩索链接
  * @description
- * 我方其他角色使用特技或触发燃烧后：附属角色获得1点「夜魂值」。
+ * 我方触发燃烧或我方其他角色使用特技后：附属角色获得1点「夜魂值」。
  * 当夜魂值等于2点时：附属角色附属钩索准备。
  * 持续回合：2
  */
 export const GrappleLink = status(117091)
   .since("v5.3.51-beta")
   .duration(2)
-  .on("useTechinque", (c, e) => e.skillCaller.id !== c.self.master().id)
-  .listenToPlayer()
+  .on("reaction", (c, e) => e.reactionInfo.type === Reaction.Burning &&
+    e.caller.definition.type === "character" &&
+    c.of<"character">(e.caller).isMine())
+  .listenToAll()
   .do((c) => {
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
@@ -37,11 +39,8 @@ export const GrappleLink = status(117091)
       }
     }
   })
-  .on("reaction", (c, e) => e.reactionInfo.type === Reaction.Burning &&
-    e.caller.definition.type === "character" &&
-    c.of<"character">(e.caller).isMine() &&
-    e.caller.id !== c.self.master().id)
-  .listenToAll()
+  .on("useTechinque", (c, e) => e.skillCaller.id !== c.self.master().id)
+  .listenToPlayer()
   .do((c) => {
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
@@ -109,16 +108,16 @@ export const NightsunStyle = skill(17091)
  * @id 17092
  * @name 悬猎·游骋高狩
  * @description
- * 选一个我方角色与其交换位置，附属钩索链接并进入夜魂加持。然后造成2点草元素伤害。
+ * 附属钩索链接并进入夜魂加持。造成2点草元素伤害，然后选一个我方角色与其交换位置。
  */
 export const CanopyHunterRidingHigh = skill(17092)
   .type("elemental")
   .costDendro(3)
   .addTarget("my characters and not @self")
-  .swapCharacterPosition("@self", "@targets.0")
   .characterStatus(GrappleLink)
   .characterStatus(NightsoulsBlessing)
   .damage(DamageType.Dendro, 2)
+  .swapCharacterPosition("@self", "@targets.0")
   .do((c) => {
     const talent = c.self.hasEquipment(RepaidInFull);
     if (talent && talent.variables.usagePerRound! > 0) {
@@ -162,14 +161,17 @@ export const Kinich = character(1709)
  * @id 217091
  * @name 索报皆偿
  * @description
- * 装备有此牌的索报皆偿切换至前台或使用S17092时：若我方手牌少于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）
+ * 装备有此牌的索报皆偿切换至前台或使用S17092时：若我方手牌不多于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）
  * （牌组中包含索报皆偿，才能加入牌组）
  */
 export const RepaidInFull = card(217091)
   .since("v5.3.51-beta")
   .costDendro(1)
   .talent(Kinich, "none")
-  .on("switchActive", (c, e) => c.self.master().id === e.switchInfo.to.id && c.player.hands.length < c.oppPlayer.hands.length)
+  .on("switchActive", (c, e) =>
+    c.self.master().id === e.switchInfo.to.id && 
+    c.player.hands.length <= c.oppPlayer.hands.length &&
+    c.oppPlayer.hands.length > 0)
   .usagePerRound(1)
   .do((c) => {
     const targets = c.getMaxCostHands("opp");

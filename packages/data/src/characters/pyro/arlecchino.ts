@@ -18,7 +18,7 @@ import { BondOfLife } from "../../commons";
 
 /**
  * @id 113141
- * @name 血债勒令
+ * @name 血偿勒令
  * @description
  * 我方前台受到伤害后：我方前台角色和敌方阿蕾奇诺均附属2层生命之契。
  * 可用次数：3（可叠加，没有上限）
@@ -62,7 +62,7 @@ export const InvitationToABeheading = skill(13141)
  * @id 13142
  * @name 万相化灰
  * @description
- * 生成3层血债勒令，然后造成2点火元素伤害。
+ * 在对方场上生成3层血偿勒令，然后造成2点火元素伤害。
  */
 export const AllIsAsh = skill(13142)
   .type("elemental")
@@ -149,7 +149,7 @@ export const Arlecchino = character(1314)
  * @name 所有的仇与债皆由我偿还
  * @description
  * 战斗行动：我方出战角色为所有的仇与债皆由我偿还时，对该角色打出。使所有的仇与债皆由我偿还附属3层生命之契。
- * 装备有此牌的所有的仇与债皆由我偿还受到伤害时，若可能，消耗一层生命之契，以抵消1点伤害。
+ * 装备有此牌的所有的仇与债皆由我偿还受到伤害时，若可能，消耗1层生命之契，以抵消1点伤害。
  * （牌组中包含所有的仇与债皆由我偿还，才能加入牌组）
  */
 export const AllReprisalsAndArrearsMineToBear = card(213141)
