@@ -24,7 +24,7 @@ import { character, skill, card, DamageType, status, summon, Reaction } from "@g
  * 持续回合：2
  */
 export const GrappleLink = status(117091)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .duration(2)
   .on("useTechinque", (c, e) => e.skillCaller.id !== c.self.master().id)
   .listenToPlayer()
@@ -60,7 +60,7 @@ export const GrappleLink = status(117091)
  * 所附属角色可累积「夜魂值」。（最多累积到2点）
  */
 export const NightsoulsBlessing = status(117092)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .tags("nightsoulBlessing")
   .variableCanAppend("nightsoul", 0, 2)
   .done();
@@ -73,7 +73,7 @@ export const NightsoulsBlessing = status(117092)
  * 可用次数：2
  */
 export const AlmightyDragonlordAjaw = summon(117093)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .endPhaseDamage(DamageType.Dendro, 1)
   .on("endPhase")
   .usage(2)
@@ -87,7 +87,7 @@ export const AlmightyDragonlordAjaw = summon(117093)
  * 我方角色选择行动前，若附属角色为出战角色：对最近的敌方角色造成3点草元素伤害。
  */
 export const GrapplePrepare = status(117094)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .on("beforeAction", (c) => c.self.master().isActive())
   .damage(DamageType.Dendro, 3, "recent opp from @master")
   .done();
@@ -151,7 +151,7 @@ export const HailToTheAlmightyDragonlord = skill(17093)
  * 
  */
 export const Kinich = character(1709)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .tags("dendro", "claymore", "natlan")
   .health(10)
   .energy(2)
@@ -166,7 +166,7 @@ export const Kinich = character(1709)
  * （牌组中包含索报皆偿，才能加入牌组）
  */
 export const RepaidInFull = card(217091)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .costDendro(1)
   .talent(Kinich, "none")
   .on("switchActive", (c, e) => c.self.master().id === e.switchInfo.to.id && c.player.hands.length < c.oppPlayer.hands.length)

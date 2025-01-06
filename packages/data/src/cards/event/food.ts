@@ -362,7 +362,7 @@ export const [PuffPops] = card(333018)
  * （每回合每个角色最多食用1次「料理」）
  */
 export const HotSpringOclock = card(333019)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .costSame(1)
   .food()
   .do((c) => {

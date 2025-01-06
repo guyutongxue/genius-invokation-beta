@@ -24,7 +24,7 @@ import { BondOfLife } from "../../commons";
  * 可用次数：3（可叠加，没有上限）
  */
 export const BlooddebtDirective = combatStatus(113141)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .on("damaged", (c, e) => c.of(e.target).isActive())
   .usageCanAppend(3, Infinity)
   .do((c) => {
@@ -137,7 +137,7 @@ export const TheBalemoonAloneMayKnowPassive2 = skill(13147)
  * 
  */
 export const Arlecchino = character(1314)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .tags("pyro", "pole", "fatui")
   .health(10)
   .energy(2)
@@ -153,7 +153,7 @@ export const Arlecchino = character(1314)
  * （牌组中包含所有的仇与债皆由我偿还，才能加入牌组）
  */
 export const AllReprisalsAndArrearsMineToBear = card(213141)
-  .since("v5.3.50-beta")
+  .since("v5.3.51-beta")
   .costPyro(1)
   .talent(Arlecchino)
   .on("enter")

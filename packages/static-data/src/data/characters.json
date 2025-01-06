@@ -10969,7 +10969,7 @@
     "id": 1314,
     "shareId": 454,
     "obtainable": true,
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "阿蕾奇诺",
     "englishName": "Arlecchino",
     "tags": [
@@ -11003,8 +11003,8 @@
         "type": "GCG_SKILL_TAG_E",
         "name": "万相化灰",
         "englishName": "All Is Ash",
-        "rawDescription": "生成3层<color=#FFFFFFFF>$[C113141]</color>，然后造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
-        "description": "生成3层血债勒令，然后造成2点火元素伤害。",
+        "rawDescription": "在对方场上生成3层<color=#FFFFFFFF>$[C113141]</color>，然后造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
+        "description": "在对方场上生成3层血偿勒令，然后造成2点火元素伤害。",
         "playCost": [
           {
             "type": "GCG_COST_DICE_PYRO",
@@ -11077,7 +11077,7 @@
     "id": 1709,
     "shareId": 455,
     "obtainable": true,
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "基尼奇",
     "englishName": "Kinich",
     "tags": [
@@ -11111,8 +11111,8 @@
         "type": "GCG_SKILL_TAG_E",
         "name": "悬猎·游骋高狩",
         "englishName": "Canopy Hunter: Riding High",
-        "rawDescription": "选一个我方角色与其交换位置，附属<color=#FFFFFFFF>$[C117091]</color>并进入<color=#FFFFFFFF>$[C117092]</color>。然后造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]。",
-        "description": "选一个我方角色与其交换位置，附属钩索链接并进入夜魂加持。然后造成2点草元素伤害。",
+        "rawDescription": "附属<color=#FFFFFFFF>$[C117091]</color>并进入<color=#FFFFFFFF>$[C117092]</color>。造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，然后选一个我方角色与其交换位置。",
+        "description": "附属钩索链接并进入夜魂加持。造成2点草元素伤害，然后选一个我方角色与其交换位置。",
         "playCost": [
           {
             "type": "GCG_COST_DICE_DENDRO",

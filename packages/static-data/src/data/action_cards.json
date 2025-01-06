@@ -15168,15 +15168,16 @@
     "shareId": 456,
     "obtainable": true,
     "type": "GCG_CARD_MODIFY",
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "所有的仇与债皆由我偿还",
     "englishName": "All Reprisals and Arrears, Mine to Bear",
     "tags": [
-      "GCG_TAG_TALENT"
+      "GCG_TAG_TALENT",
+      "GCG_TAG_SLOWLY"
     ],
     "cardFace": "UI_Gcg_CardFace_Modify_Talent_Arlecchino",
-    "rawDescription": "$[K1]：我方出战角色为<color=#FFFFFFFF>$[A1314]</color>时，对该角色打出。使$[A1314]附属3层<color=#FFFFFFFF>$[C122]</color>。\\n装备有此牌的<color=#FFFFFFFF>$[A1314]</color>受到伤害时，若可能，消耗一层<color=#FFFFFFFF>$[C122]</color>，以抵消1点伤害。\\n（牌组中包含$[A1314]，才能加入牌组）",
-    "description": "战斗行动：我方出战角色为所有的仇与债皆由我偿还时，对该角色打出。使所有的仇与债皆由我偿还附属3层生命之契。\n装备有此牌的所有的仇与债皆由我偿还受到伤害时，若可能，消耗一层生命之契，以抵消1点伤害。\n（牌组中包含所有的仇与债皆由我偿还，才能加入牌组）",
+    "rawDescription": "$[K1]：我方出战角色为<color=#FFFFFFFF>$[A1314]</color>时，对该角色打出。使$[A1314]附属3层<color=#FFFFFFFF>$[C122]</color>。\\n装备有此牌的<color=#FFFFFFFF>$[A1314]</color>受到伤害时，若可能，消耗1层<color=#FFFFFFFF>$[C122]</color>，以抵消1点伤害。\\n（牌组中包含$[A1314]，才能加入牌组）",
+    "description": "战斗行动：我方出战角色为所有的仇与债皆由我偿还时，对该角色打出。使所有的仇与债皆由我偿还附属3层生命之契。\n装备有此牌的所有的仇与债皆由我偿还受到伤害时，若可能，消耗1层生命之契，以抵消1点伤害。\n（牌组中包含所有的仇与债皆由我偿还，才能加入牌组）",
     "playCost": [
       {
         "type": "GCG_COST_DICE_PYRO",
@@ -15192,15 +15193,15 @@
     "shareId": 457,
     "obtainable": true,
     "type": "GCG_CARD_MODIFY",
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "索报皆偿",
     "englishName": "Repaid in Full",
     "tags": [
       "GCG_TAG_TALENT"
     ],
     "cardFace": "UI_Gcg_CardFace_Modify_Talent_Kinich",
-    "rawDescription": "装备有此牌的<color=#FFFFFFFF>$[A1709]</color>切换至前台或使用<color=#FFFFFFFF>$[S17092]</color>时：若我方手牌少于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）\\n（牌组中包含$[A1709]，才能加入牌组）",
-    "description": "装备有此牌的索报皆偿切换至前台或使用S17092时：若我方手牌少于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）\n（牌组中包含索报皆偿，才能加入牌组）",
+    "rawDescription": "装备有此牌的<color=#FFFFFFFF>$[A1709]</color>切换至前台或使用<color=#FFFFFFFF>$[S17092]</color>时：若我方手牌不多于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）\\n（牌组中包含$[A1709]，才能加入牌组）",
+    "description": "装备有此牌的索报皆偿切换至前台或使用S17092时：若我方手牌不多于对方，则窃取1张原本元素骰费用最高的对方手牌，然后对手抓1张牌。（每回合1次）\n（牌组中包含索报皆偿，才能加入牌组）",
     "playCost": [
       {
         "type": "GCG_COST_DICE_DENDRO",
@@ -15216,15 +15217,15 @@
     "shareId": 458,
     "obtainable": true,
     "type": "GCG_CARD_ASSIST",
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "「花羽会」",
     "englishName": "\"Flower-Feather Clan\"",
     "tags": [
       "GCG_TAG_PLACE"
     ],
     "cardFace": "UI_Gcg_CardFace_Assist_Location_HuaYu",
-    "rawDescription": "<color=#FFFFFFFF>我方$[K56]2张卡牌后：</color>我方下一个后台角色获得1层“下次切换至前台时，回复1个对应元素的骰子。”（可叠加，每次触发一层）",
-    "description": "我方舍弃2张卡牌后：我方下一个后台角色获得1层“下次切换至前台时，回复1个对应元素的骰子。”（可叠加，每次触发一层）",
+    "rawDescription": "<color=#FFFFFFFF>我方$[K56]2张卡牌后：</color>我方下一个后台角色获得1层“下次切换至前台时，回复1个对应元素的骰子”。（可叠加，每次触发1层）",
+    "description": "我方舍弃2张卡牌后：我方下一个后台角色获得1层“下次切换至前台时，回复1个对应元素的骰子”。（可叠加，每次触发1层）",
     "playCost": [],
     "relatedCharacterId": null,
     "relatedCharacterTags": [],
@@ -15235,7 +15236,7 @@
     "shareId": 459,
     "obtainable": true,
     "type": "GCG_CARD_EVENT",
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "小嵴锋龙！发现宝藏！",
     "englishName": "Little Tepetlisaur — Treasure Hunter at Large",
     "tags": [],
@@ -15257,7 +15258,7 @@
     "shareId": 460,
     "obtainable": true,
     "type": "GCG_CARD_EVENT",
-    "sinceVersion": "v5.3.50-beta",
+    "sinceVersion": "v5.3.51-beta",
     "name": "温泉时光",
     "englishName": "Hot Spring O'Clock",
     "tags": [
