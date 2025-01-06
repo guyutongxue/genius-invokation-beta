@@ -51,6 +51,7 @@ export class UsersService implements OnModuleInit {
     if (userResponse.status !== 200) {
       this.logger.error("Get User detail failure");
       this.logger.error(userResponse.data);
+      this.logger.error(`Bearer ${user.ghToken}`);
       return null;
     }
     return {
