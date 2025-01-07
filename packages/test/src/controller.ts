@@ -310,8 +310,11 @@ export class TestController {
 
   private stepping = Promise.withResolvers<void>();
   private awaitingRpc: AwaitingRpc | null = null;
-  private async rpc(who: 0 | 1, request: RpcRequest) {
+  private async rpc(who: 0 | 1, request: RpcRequest): Promise<RpcResponse> {
     const method = Object.keys(request)[0] as RpcMethod;
+    if (method === "rerollDice") {
+      return { rerollDice: { diceToReroll: [] } };
+    }
     if (this.awaitingRpc) {
       throw new Error(
         `Previous rpc (${this.awaitingRpc.who} ${this.awaitingRpc.method}) is not resolved, cannot send another rpc (${who} ${method})`,
@@ -337,7 +340,7 @@ export class TestController {
   expect(ref: Ref): Matchers;
   expect(what: string | Ref): Matchers {
     if (what instanceof Ref) {
-      what = `any with id ${what.id}`;
+      what = `with id ${what.id}`;
     }
     return expect(this.query(what));
   }
