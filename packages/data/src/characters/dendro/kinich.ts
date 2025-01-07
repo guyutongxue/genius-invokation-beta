@@ -1,19 +1,27 @@
 // Copyright (C) 2024 Guyutongxue
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
 // published by the Free Software Foundation, either version 3 of the
 // License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { character, skill, card, DamageType, status, summon, Reaction } from "@gi-tcg/core/builder";
+import {
+  character,
+  skill,
+  card,
+  DamageType,
+  status,
+  summon,
+  Reaction,
+} from "@gi-tcg/core/builder";
 
 /**
  * @id 117091
@@ -26,9 +34,13 @@ import { character, skill, card, DamageType, status, summon, Reaction } from "@g
 export const GrappleLink = status(117091)
   .since("v5.3.51-beta")
   .duration(2)
-  .on("reaction", (c, e) => e.reactionInfo.type === Reaction.Burning &&
-    e.caller.definition.type === "character" &&
-    c.of<"character">(e.caller).isMine())
+  .on(
+    "reaction",
+    (c, e) =>
+      e.reactionInfo.type === Reaction.Burning &&
+      e.caller.definition.type === "character" &&
+      c.of<"character">(e.caller).isMine(),
+  )
   .listenToAll()
   .do((c) => {
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
@@ -120,9 +132,14 @@ export const CanopyHunterRidingHigh = skill(17092)
   .swapCharacterPosition("@self", "@targets.0")
   .do((c) => {
     const talent = c.self.hasEquipment(RepaidInFull);
-    if (talent && talent.variables.usagePerRound! > 0) {
-      const targets = c.getMaxCostHands("opp");
-      c.stealHandCard(c.random(targets));
+    if (
+      talent &&
+      c.player.hands.length <= c.oppPlayer.hands.length &&
+      c.oppPlayer.hands.length > 0 &&
+      talent.variables.usagePerRound! > 0
+    ) {
+      const [targetCard] = c.maxCostHands(1, "opp");
+      c.stealHandCard(targetCard);
       c.drawCards(1, { who: "opp" });
       c.addVariable("usagePerRound", -1, talent);
     }
@@ -147,7 +164,7 @@ export const HailToTheAlmightyDragonlord = skill(17093)
  * @id 1709
  * @name 基尼奇
  * @description
- * 
+ *
  */
 export const Kinich = character(1709)
   .since("v5.3.51-beta")
@@ -168,14 +185,17 @@ export const RepaidInFull = card(217091)
   .since("v5.3.51-beta")
   .costDendro(1)
   .talent(Kinich, "none")
-  .on("switchActive", (c, e) =>
-    c.self.master().id === e.switchInfo.to.id && 
-    c.player.hands.length <= c.oppPlayer.hands.length &&
-    c.oppPlayer.hands.length > 0)
+  .on(
+    "switchActive",
+    (c, e) =>
+      c.self.master().id === e.switchInfo.to.id &&
+      c.player.hands.length <= c.oppPlayer.hands.length &&
+      c.oppPlayer.hands.length > 0,
+  )
   .usagePerRound(1)
   .do((c) => {
-    const targets = c.getMaxCostHands("opp");
-    c.stealHandCard(c.random(targets));
+    const [targetCard] = c.maxCostHands(1, "opp");
+    c.stealHandCard(targetCard);
     c.drawCards(1, { who: "opp" });
   })
   .done();
