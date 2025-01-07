@@ -88,6 +88,7 @@ export const NightsoulsBlessing = status(117092)
 export const AlmightyDragonlordAjaw = summon(117093)
   .since("v5.3.51-beta")
   .endPhaseDamage(DamageType.Dendro, 1)
+  .usage(2)
   .if((c) => c.$("opp next and not opp active"))
   .damage(DamageType.Dendro, 1, "opp next")
   .done();
