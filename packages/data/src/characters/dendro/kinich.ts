@@ -46,8 +46,9 @@ export const GrappleLink = status(117091)
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
+      if (nightsoul.variables.nightsoul === 2) {
         c.self.master().addStatus(GrapplePrepare);
+        c.dispose(nightsoul);
       }
     }
   })
@@ -57,8 +58,9 @@ export const GrappleLink = status(117091)
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
+      if (nightsoul.variables.nightsoul === 2) {
         c.self.master().addStatus(GrapplePrepare);
+        c.dispose(nightsoul);
       }
     }
   })
@@ -86,8 +88,7 @@ export const NightsoulsBlessing = status(117092)
 export const AlmightyDragonlordAjaw = summon(117093)
   .since("v5.3.51-beta")
   .endPhaseDamage(DamageType.Dendro, 1)
-  .on("endPhase")
-  .usage(2)
+  .if((c) => c.$("opp next and not opp active"))
   .damage(DamageType.Dendro, 1, "opp next")
   .done();
 
@@ -125,7 +126,7 @@ export const NightsunStyle = skill(17091)
 export const CanopyHunterRidingHigh = skill(17092)
   .type("elemental")
   .costDendro(3)
-  .addTarget("my characters and not @self")
+  .addTarget("my characters")
   .characterStatus(GrappleLink)
   .characterStatus(NightsoulsBlessing)
   .damage(DamageType.Dendro, 2)
