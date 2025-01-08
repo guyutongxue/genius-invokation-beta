@@ -138,10 +138,9 @@ class CardBuilder<
     if (Reflect.has(this._descriptionDictionary, key)) {
       throw new GiTcgDataError(`Description key ${key} already exists`);
     }
-    const entry: DescriptionDictionaryEntry = (st, id) => {
-      const ext = st.extensions.find(
-        (ext) => ext.definition.id === this.associatedExtensionId,
-      );
+    const extId = this.associatedExtensionId;
+    const entry: DescriptionDictionaryEntry = function (st, id) {
+      const ext = st.extensions.find((ext) => ext.definition.id === extId);
       const who = st.players[0].hands.find((c) => c.id === id) ? 0 : 1;
       return String(getter(st, { area: { who } }, ext?.state));
     };
@@ -174,16 +173,17 @@ class CardBuilder<
   }
 
   equipment<Q extends TargetQuery>(target: Q) {
+    const cardId = this.cardId as EquipmentHandle;
     this.type("equipment")
       .addTarget(target)
       .do((c) => {
         const ch = c.$("character and @targets.0");
-        ch?.equip(this.cardId as EquipmentHandle, {
+        ch?.equip(cardId, {
           withId: c.skillInfo.caller.id,
         });
       })
       .done();
-    const builder = new EntityBuilder("equipment", this.cardId);
+    const builder = new EntityBuilder("equipment", cardId);
     builder._versionInfo = this._versionInfo;
     return builder;
   }
@@ -221,17 +221,18 @@ class CardBuilder<
     if (type !== null) {
       this.tags(type);
     }
+    const cardId = this.cardId as SupportHandle;
     this.do((c, e) => {
       // 支援牌的目标是要弃置的支援区卡牌
       const targets = e.targets as readonly EntityState[];
       if (targets.length > 0 && c.$(`my support with id ${targets[0].id}`)) {
         c.dispose(targets[0]);
       }
-      c.createEntity("support", this.cardId as SupportHandle, void 0, {
+      c.createEntity("support", cardId, void 0, {
         withId: c.skillInfo.caller.id,
       });
     }).done();
-    const builder = new EntityBuilder("support", this.cardId);
+    const builder = new EntityBuilder("support", cardId);
     if (type !== null) {
       builder.tags(type);
     }
@@ -240,37 +241,43 @@ class CardBuilder<
   }
 
   /**
-   * @deprecated 由于 `toCombatStatus` 会生成“错误”的 handle id，应尽快移除。
    * 添加“打出后生成出战状态”的操作。
    *
    * 此调用后，卡牌描述结束；接下来的 builder 将描述出战状态。
    * @param id 出战状态定义 id；默认与卡牌定义 id 相同
    * @returns 出战状态 builder
    */
-  toCombatStatus(id?: number, where?: "my" | "opp") {
+  toCombatStatus(id: number, where: "my" | "opp" = "my") {
     id ??= this.cardId;
     this.do((c) => {
       c.combatStatus(id as CombatStatusHandle, where);
     }).done();
-    const builder = new EntityBuilder("combatStatus", id);
+    const builder = new EntityBuilder<"combatStatus", never, never, true>(
+      "combatStatus",
+      id,
+      this.id,
+    );
     builder._versionInfo = this._versionInfo;
     return builder;
   }
   /**
-   * @deprecated 由于 `toStatus` 会生成“错误”的 handle id，应尽快移除。
    * 添加“打出后为某角色附着状态”的操作。
    *
    * 此调用后，卡牌描述结束；接下来的 builder 将描述状态。
    * @param target 要附着的角色（查询）
-   * @param id 状态定义 id；默认与卡牌定义 id 相同
+   * @param id 状态定义 id
    * @returns 状态 builder
    */
-  toStatus(target: string, id?: number) {
+  toStatus(id: number, target: string) {
     id ??= this.cardId;
     this.do((c) => {
       c.characterStatus(id as StatusHandle, target);
     }).done();
-    const builder = new EntityBuilder("status", id);
+    const builder = new EntityBuilder<"status", never, never, true>(
+      "status",
+      id,
+      this.id,
+    );
     builder._versionInfo = this._versionInfo;
     return builder;
   }
@@ -410,24 +417,14 @@ class CardBuilder<
       const target = this._satiatedTarget;
       this.operations.push((c) => c.characterStatus(SATIATED_ID, target));
     }
+    const extId = this.associatedExtensionId;
     const skills: SkillDefinition[] = [];
 
     const targetGetter = this.buildTargetGetter();
     if (this._doSameWhenDisposed || this._disposeOperation !== null) {
       const disposeOp = this._disposeOperation;
       const disposeAction = disposeOp
-        ? <SkillDescription<DisposeOrTuneCardEventArg>>((
-            state,
-            skillInfo,
-            arg,
-          ) => {
-            const ctx = new SkillContext<
-              WritableMetaOf<DisposeCardBuilderMeta<AssociatedExt>>
-            >(state, this._wrapSkillInfoWithExt(skillInfo), arg);
-            disposeOp(ctx, ctx.eventArg);
-            ctx._terminate();
-            return [ctx.state, ctx.events];
-          })
+        ? this.buildAction<DisposeOrTuneCardEventArg>(disposeOp)
         : this.buildAction<DisposeOrTuneCardEventArg>();
       const disposeDef: TriggeredSkillDefinition<"onDisposeOrTuneCard"> = {
         type: "skill",

@@ -26,18 +26,23 @@ import {
   VariableConfig,
 } from "../base/entity";
 import { SkillDefinition } from "../base/skill";
-import { registerEntity, registerPassiveSkill } from "./registry";
+import {
+  registerEntity,
+  registerPassiveSkill,
+  builderWeakRefs,
+} from "./registry";
 import {
   BuilderWithShortcut,
-  DetailedEventArgOf,
   DetailedEventNames,
   SkillOperationFilter,
   TechniqueBuilder,
   TriggeredSkillBuilder,
+  TriggeredSkillBuilderMeta,
   UsageOptions,
   enableShortcut,
 } from "./skill";
 import {
+  CardHandle,
   ExEntityType,
   ExtensionHandle,
   HandleT,
@@ -75,18 +80,6 @@ export type VariableOptionsWithoutAppend = Omit<VariableOptions, "append">;
 export type EntityBuilderResultT<CallerType extends ExEntityType> =
   CallerType extends "character" ? PassiveSkillHandle : HandleT<CallerType>;
 
-type BuilderMetaOfEntity<
-  Event extends DetailedEventNames,
-  CallerType extends ExEntityType,
-  Vars extends string,
-  AssociatedExt extends ExtensionHandle,
-> = {
-  callerType: CallerType;
-  callerVars: Vars;
-  eventArgType: DetailedEventArgOf<Event>;
-  associatedExtension: AssociatedExt;
-};
-
 interface GlobalUsageOptions extends VariableOptions {
   /**
    * 是否在 consumeUsage() 且变量到达 0 时时自动弃置实体。
@@ -106,18 +99,19 @@ type EntityDescriptionDictionaryGetter<AssociatedExt extends ExtensionHandle> =
 
 export class EntityBuilder<
   CallerType extends "character" | EntityType,
-  Vars extends string = never,
+  CallerVars extends string = never,
   AssociatedExt extends ExtensionHandle = never,
+  FromCard extends boolean = false,
 > {
   private _skillNo = 0;
-  _skillList: SkillDefinition[] = [];
+  readonly _skillList: SkillDefinition[] = [];
   _usagePerRoundIndex = 0;
-  private _tags: EntityTag[] = [];
+  private readonly _tags: EntityTag[] = [];
   _varConfigs: Writable<EntityVariableConfigs> = {};
   private _visibleVarName: string | null = null;
   _associatedExtensionId: number | null = null;
   private _hintText: string | null = null;
-  private _descriptionDictionary: Writable<DescriptionDictionary> = {};
+  private readonly _descriptionDictionary: Writable<DescriptionDictionary> = {};
   _versionInfo: VersionInfo = DEFAULT_VERSION_INFO;
   private generateSkillId() {
     const thisSkillNo = ++this._skillNo;
@@ -125,9 +119,12 @@ export class EntityBuilder<
   }
 
   constructor(
-    public _type: CallerType,
-    private id: number,
-  ) {}
+    public readonly _type: CallerType,
+    private readonly id: number,
+    private readonly fromCardId: number | null = null,
+  ) {
+    builderWeakRefs.add(new WeakRef(this));
+  }
 
   since(version: Version) {
     this._versionInfo = { predicate: "since", version };
@@ -145,12 +142,11 @@ export class EntityBuilder<
     if (Reflect.has(this._descriptionDictionary, key)) {
       throw new GiTcgDataError(`Description key ${key} already exists`);
     }
-    const entry: DescriptionDictionaryEntry = (st, id) => {
+    const extId = this._associatedExtensionId;
+    const entry: DescriptionDictionaryEntry = function (st, id) {
       const self = getEntityById(st, id) as EntityState;
       const area = getEntityArea(st, id);
-      const ext = st.extensions.find(
-        (ext) => ext.definition.id === this._associatedExtensionId,
-      );
+      const ext = st.extensions.find((ext) => ext.definition.id === extId);
       return String(getter(st, { ...self, area }, ext?.state));
     };
     this._descriptionDictionary[key] = entry;
@@ -166,8 +162,9 @@ export class EntityBuilder<
     this._associatedExtensionId = ext;
     return this as unknown as EntityBuilderPublic<
       CallerType,
-      Vars,
-      ExtensionHandle<NewExtT>
+      CallerVars,
+      ExtensionHandle<NewExtT>,
+      FromCard
     >;
   }
 
@@ -177,17 +174,17 @@ export class EntityBuilder<
     }
     const self = this as unknown as EntityBuilder<
       "equipment",
-      Vars,
+      CallerVars,
       AssociatedExt
     >;
     return enableShortcut(
-      new TechniqueBuilder<Vars, readonly [], AssociatedExt>(id, self),
+      new TechniqueBuilder<CallerVars, readonly [], AssociatedExt>(id, self),
     );
   }
 
   conflictWith(id: number) {
     return this.on("enter", (c) => c.$(`my any with definition id ${id}`))
-      .do((c) => {
+      .do(function (c) {
         // 将位于相同实体区域的目标实体移除
         for (const entity of c.$$(`my any with definition id ${id}`)) {
           if (
@@ -215,26 +212,36 @@ export class EntityBuilder<
     return this.on("enter").dispose(`(${targetQuery}) and not @self`).endOn();
   }
 
-  on<E extends DetailedEventNames>(
-    event: E,
+  on<EventName extends DetailedEventNames>(
+    event: EventName,
     filter?: SkillOperationFilter<
-      BuilderMetaOfEntity<E, CallerType, Vars, AssociatedExt>
+      TriggeredSkillBuilderMeta<
+        EventName,
+        CallerType,
+        CallerVars,
+        AssociatedExt
+      >
     >,
   ) {
-    // BuilderWithShortcut<
-    //   TriggeredSkillBuilder<BuilderMetaOfEntity<E, CallerType, Vars>, E>
-    // >
     return enableShortcut(
       new TriggeredSkillBuilder<
-        BuilderMetaOfEntity<E, CallerType, Vars, AssociatedExt>,
-        E
+        EventName,
+        CallerType,
+        CallerVars,
+        AssociatedExt,
+        FromCard
       >(this.generateSkillId(), event, this, filter),
     );
   }
-  once<E extends DetailedEventNames>(
-    event: E,
+  once<EventName extends DetailedEventNames>(
+    event: EventName,
     filter?: SkillOperationFilter<
-      BuilderMetaOfEntity<E, CallerType, Vars, AssociatedExt>
+      TriggeredSkillBuilderMeta<
+        EventName,
+        CallerType,
+        CallerVars,
+        AssociatedExt
+      >
     >,
   ) {
     return this.on(event, filter).usage<never>(1, {
@@ -246,7 +253,12 @@ export class EntityBuilder<
     name: Name,
     value: number,
     opt?: VariableOptions,
-  ): EntityBuilderPublic<CallerType, Vars | Name, AssociatedExt> {
+  ): EntityBuilderPublic<
+    CallerType,
+    CallerVars | Name,
+    AssociatedExt,
+    FromCard
+  > {
     if (Reflect.has(this._varConfigs, name)) {
       throw new GiTcgDataError(`Variable name ${name} already exists`);
     }
@@ -282,14 +294,24 @@ export class EntityBuilder<
     value: number,
     max?: number,
     opt?: VariableOptionsWithoutAppend,
-  ): EntityBuilderPublic<CallerType, Vars | Name, AssociatedExt>;
+  ): EntityBuilderPublic<
+    CallerType,
+    CallerVars | Name,
+    AssociatedExt,
+    FromCard
+  >;
   variableCanAppend<const Name extends string>(
     name: Name,
     value: number,
     max: number,
     appendValue: number,
     opt?: VariableOptionsWithoutAppend,
-  ): EntityBuilderPublic<CallerType, Vars | Name, AssociatedExt>;
+  ): EntityBuilderPublic<
+    CallerType,
+    CallerVars | Name,
+    AssociatedExt,
+    FromCard
+  >;
   variableCanAppend(
     name: string,
     value: number,
@@ -365,7 +387,7 @@ export class EntityBuilder<
           return true;
         }
       })
-      .do((c, e) => {
+      .do(function (c, e) {
         const shield = c.getVariable("shield");
         const currentValue = e.value;
         const decreased = Math.min(shield, currentValue);
@@ -395,7 +417,12 @@ export class EntityBuilder<
       this.variable("preparingSkillHintCount", hintCount);
     }
     return (
-      this as unknown as EntityBuilderPublic<"status", Vars, AssociatedExt>
+      this as unknown as EntityBuilderPublic<
+        "status",
+        CallerVars,
+        AssociatedExt,
+        FromCard
+      >
     )
       .on("replaceAction")
       .useSkill(skill)
@@ -438,13 +465,11 @@ export class EntityBuilder<
     target?: string,
   ): BuilderWithShortcut<
     TriggeredSkillBuilder<
-      BuilderMetaOfEntity<
-        "endPhase",
-        CallerType,
-        Vars | "hintIcon",
-        AssociatedExt
-      >,
-      "endPhase"
+      "endPhase",
+      CallerType,
+      CallerVars | "hintIcon",
+      AssociatedExt,
+      FromCard
     >
   > {
     if (type === "swirledAnemo") {
@@ -476,25 +501,34 @@ export class EntityBuilder<
   usage(
     count: number,
     opt: GlobalUsageOptions = {},
-  ): EntityBuilderPublic<CallerType, Vars | "usage", AssociatedExt> {
+  ): EntityBuilderPublic<
+    CallerType,
+    CallerVars | "usage",
+    AssociatedExt,
+    FromCard
+  > {
     if (opt.autoDispose !== false) {
       this.variable("disposeWhenUsageIsZero", 1);
     }
     return this.variable("usage", count);
   }
 
-  done(): EntityBuilderResultT<CallerType> {
+  done() {
+    type Result = FromCard extends true
+      ? readonly [CardHandle, EntityBuilderResultT<CallerType>]
+      : EntityBuilderResultT<CallerType>;
     if (this._type === "status" || this._type === "equipment") {
       this.on("defeated").dispose().endOn();
     }
+    const varConfigs = this._varConfigs;
     // on each round begin clean up
     const usagePerRoundNames = USAGE_PER_ROUND_VARIABLE_NAMES.filter((name) =>
-      Reflect.has(this._varConfigs, name),
+      Reflect.has(varConfigs, name),
     );
-    const hasDuration = Reflect.has(this._varConfigs, "duration");
+    const hasDuration = Reflect.has(varConfigs, "duration");
     if (usagePerRoundNames.length > 0 || hasDuration) {
       this.on("roundEnd")
-        .do((c, e) => {
+        .do(function (c, e) {
           const self = c.self;
           // 恢复每回合使用次数
           for (const prop of usagePerRoundNames) {
@@ -536,7 +570,11 @@ export class EntityBuilder<
         descriptionDictionary: this._descriptionDictionary,
       });
     }
-    return this.id as EntityBuilderResultT<CallerType>;
+    if (this.fromCardId === null) {
+      return this.id as Result;
+    } else {
+      return [this.fromCardId, this.id] as unknown as Result;
+    }
   }
 
   /** 此定义未被使用。 */
@@ -547,7 +585,11 @@ export type EntityBuilderPublic<
   CallerType extends EntityType | "character",
   Vars extends string = never,
   AssociatedExt extends ExtensionHandle = never,
-> = Omit<EntityBuilder<CallerType, Vars, AssociatedExt>, `_${string}`>;
+  FromCard extends boolean = false,
+> = Omit<
+  EntityBuilder<CallerType, Vars, AssociatedExt, FromCard>,
+  `_${string}`
+>;
 
 export function summon(id: number): EntityBuilderPublic<"summon"> {
   return new EntityBuilder("summon", id);
