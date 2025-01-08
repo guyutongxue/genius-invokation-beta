@@ -34,12 +34,10 @@ import {
 export const GrappleLink = status(117091)
   .since("v5.3.51-beta")
   .duration(2)
-  .on(
-    "reaction",
-    (c, e) =>
-      e.reactionInfo.type === Reaction.Burning &&
-      e.caller.definition.type === "character" &&
-      c.of<"character">(e.caller).isMine(),
+  .on("reaction", (c, e) =>
+    e.reactionInfo.type === Reaction.Burning &&
+    e.caller.definition.type === "character" &&
+    c.of<"character">(e.caller).isMine(),
   )
   .listenToAll()
   .do((c) => {
@@ -187,12 +185,10 @@ export const RepaidInFull = card(217091)
   .since("v5.3.51-beta")
   .costDendro(1)
   .talent(Kinich, "none")
-  .on(
-    "switchActive",
-    (c, e) =>
-      c.self.master().id === e.switchInfo.to.id &&
-      c.player.hands.length <= c.oppPlayer.hands.length &&
-      c.oppPlayer.hands.length > 0,
+  .on("switchActive", (c, e) =>
+    c.self.master().id === e.switchInfo.to.id &&
+    c.player.hands.length <= c.oppPlayer.hands.length &&
+    c.oppPlayer.hands.length > 0,
   )
   .usagePerRound(1)
   .do((c) => {
