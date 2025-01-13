@@ -71,8 +71,7 @@ export const GrappleLink = status(117091)
  */
 export const NightsoulsBlessing = status(117092)
   .since("v5.3.52-beta")
-  .tags("nightsoulBlessing")
-  .variableCanAppend("nightsoul", 0, 2)
+  .nightsoulsBlessing(2)
   .done();
 
 /**
