@@ -43,7 +43,7 @@ export const GrappleLink = status(117091)
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (nightsoul.variables.nightsoul === 2) {
+      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
         c.self.master().addStatus(GrapplePrepare);
         c.consumeNightsoul("@master", 2);
       }
@@ -55,7 +55,7 @@ export const GrappleLink = status(117091)
     const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
     if (nightsoul) {
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (nightsoul.variables.nightsoul === 2) {
+      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
         c.self.master().addStatus(GrapplePrepare);
         c.consumeNightsoul("@master", 2);
       }
