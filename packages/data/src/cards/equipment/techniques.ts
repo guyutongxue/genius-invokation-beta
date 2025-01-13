@@ -85,6 +85,7 @@ export const Yumkasaurus = card(313002)
     if (handCard) {
       c.stealHandCard(handCard);
     }
+    c.drawCards(1, { who: "opp" });
   })
   .done();
 

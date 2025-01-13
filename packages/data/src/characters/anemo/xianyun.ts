@@ -102,7 +102,7 @@ export const WordOfWindAndFlower = skill(15101)
 export const WhiteCloudsAtDawn = skill(15102)
   .type("elemental")
   .costAnemo(3)
-  .damage(DamageType.Anemo, 2)
+  .damage(DamageType.Anemo, 1)
   .combatStatus(Skyladder)
   .characterStatus(DriftcloudWave)
   .done();

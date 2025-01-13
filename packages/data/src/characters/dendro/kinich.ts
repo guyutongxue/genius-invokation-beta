@@ -27,17 +27,16 @@ import {
  * @id 117091
  * @name 钩索链接
  * @description
- * 我方触发燃烧或我方其他角色使用特技后：附属角色获得1点「夜魂值」。
- * 当夜魂值等于2点时：附属角色附属钩索准备。
+ * 敌方受到燃烧反应伤害或我方其他角色使用特技后：附属角色获得1点「夜魂值」。
+ * 当夜魂值等于2点时：附属角色附属钩索准备，随后消耗2点「夜魂值」。（附属钩索准备后，我方角色选择行动前，若附属角色为出战角色：对最近的敌方角色造成3点草元素伤害）
  * 持续回合：2
  */
 export const GrappleLink = status(117091)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .duration(2)
-  .on("reaction", (c, e) =>
-    e.reactionInfo.type === Reaction.Burning &&
-    e.caller.definition.type === "character" &&
-    c.of<"character">(e.caller).isMine(),
+  .on("damaged", (c, e) =>
+    e.getReaction() === Reaction.Burning &&
+    !c.of(e.target).isMine()
   )
   .listenToAll()
   .do((c) => {
@@ -46,7 +45,7 @@ export const GrappleLink = status(117091)
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
       if (nightsoul.variables.nightsoul === 2) {
         c.self.master().addStatus(GrapplePrepare);
-        c.dispose(nightsoul);
+        c.consumeNightsoul("@master", 2);
       }
     }
   })
@@ -58,7 +57,7 @@ export const GrappleLink = status(117091)
       c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
       if (nightsoul.variables.nightsoul === 2) {
         c.self.master().addStatus(GrapplePrepare);
-        c.dispose(nightsoul);
+        c.consumeNightsoul("@master", 2);
       }
     }
   })
@@ -71,7 +70,7 @@ export const GrappleLink = status(117091)
  * 所附属角色可累积「夜魂值」。（最多累积到2点）
  */
 export const NightsoulsBlessing = status(117092)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .tags("nightsoulBlessing")
   .variableCanAppend("nightsoul", 0, 2)
   .done();
@@ -80,11 +79,11 @@ export const NightsoulsBlessing = status(117092)
  * @id 117093
  * @name 伟大圣龙阿乔
  * @description
- * 回合结束时：造成1点草元素伤害，然后对敌方下一个角色造成1点草元素伤害。
+ * 结束阶段：造成1点草元素伤害，然后对敌方下一个角色造成1点草元素伤害。
  * 可用次数：2
  */
 export const AlmightyDragonlordAjaw = summon(117093)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .endPhaseDamage(DamageType.Dendro, 1)
   .usage(2)
   .if((c) => c.$("opp next and not opp active"))
@@ -98,7 +97,7 @@ export const AlmightyDragonlordAjaw = summon(117093)
  * 我方角色选择行动前，若附属角色为出战角色：对最近的敌方角色造成3点草元素伤害。
  */
 export const GrapplePrepare = status(117094)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .on("beforeAction", (c) => c.self.master().isActive())
   .damage(DamageType.Dendro, 3, "recent opp from @master")
   .done();
@@ -120,7 +119,7 @@ export const NightsunStyle = skill(17091)
  * @id 17092
  * @name 悬猎·游骋高狩
  * @description
- * 附属钩索链接并进入夜魂加持。造成2点草元素伤害，然后选一个我方角色与其交换位置。
+ * 选一个我方角色，自身附属钩索链接并进入夜魂加持。造成2点草元素伤害，然后与所选角色交换位置。
  */
 export const CanopyHunterRidingHigh = skill(17092)
   .type("elemental")
@@ -167,7 +166,7 @@ export const HailToTheAlmightyDragonlord = skill(17093)
  *
  */
 export const Kinich = character(1709)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .tags("dendro", "claymore", "natlan")
   .health(10)
   .energy(2)
@@ -182,7 +181,7 @@ export const Kinich = character(1709)
  * （牌组中包含索报皆偿，才能加入牌组）
  */
 export const RepaidInFull = card(217091)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .costDendro(1)
   .talent(Kinich, "none")
   .on("switchActive", (c, e) =>
@@ -197,3 +196,12 @@ export const RepaidInFull = card(217091)
     c.drawCards(1, { who: "opp" });
   })
   .done();
+
+/**
+ * @id 17094
+ * @name 
+ * @description
+ * 
+ */
+export const Untitled13 = skill(17094)
+  .reserve();

@@ -1664,7 +1664,7 @@ export const [AbundantPhlogiston] = card(332042)
  * 向双方牌组中放入2张燃素充盈，随后双方各抓2张牌。
  */
 export const LittleTepetlisaurTreasureHunterAtLarge = card(332043)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .costSame(1)
   .createPileCards(AbundantPhlogiston, 2, "random", "my")
   .createPileCards(AbundantPhlogiston, 2, "random", "opp")

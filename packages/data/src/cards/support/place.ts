@@ -611,7 +611,7 @@ export const FlowerfeatherClanInEffect = status(301024)
  * 我方舍弃2张卡牌后：我方下一个后台角色获得1层“下次切换至前台时，回复1个对应元素的骰子”。（可叠加，每次触发1层）
  */
 export const FlowerfeatherClan = card(321026)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .support("place")
   .variable("disposedCardCount", 0)
   .on("disposeCard")

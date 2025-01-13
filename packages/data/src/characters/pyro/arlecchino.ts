@@ -20,20 +20,16 @@ import { BondOfLife } from "../../commons";
  * @id 113141
  * @name 血偿勒令
  * @description
- * 我方前台受到伤害后：我方前台角色和敌方阿蕾奇诺均附属2层生命之契。
- * 可用次数：3（可叠加，没有上限）
+ * 我方角色受到伤害后：我方受到伤害的角色和敌方阿蕾奇诺均附属1层生命之契。
+ * 可用次数：5
  */
 export const BlooddebtDirective = combatStatus(113141)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .on("damaged", (c, e) => c.of(e.target).isActive())
-  .usageCanAppend(3, Infinity)
-  .do((c) => {
-    c.characterStatus(BondOfLife, "my active", {
-      overrideVariables: { usage: 2 }
-    });
-    c.characterStatus(BondOfLife, `opp characters with definition id ${Arlecchino}`, {
-      overrideVariables: { usage: 2 }
-    });
+  .usage(5)
+  .do((c, e) => {
+    c.characterStatus(BondOfLife, e.target);
+    c.characterStatus(BondOfLife, `opp characters with definition id ${Arlecchino}`);
   })
   .done();
 
@@ -41,7 +37,7 @@ export const BlooddebtDirective = combatStatus(113141)
  * @id 13141
  * @name 斩首之邀
  * @description
- * 造成2点物理伤害，若可能，消耗目标至多4层生命之契，提高等量伤害。
+ * 造成2点物理伤害，若可能，消耗目标至多3层生命之契，提高等量伤害。
  */
 export const InvitationToABeheading = skill(13141)
   .type("normal")
@@ -51,7 +47,7 @@ export const InvitationToABeheading = skill(13141)
     let increasedValue = 0;
     const bond = c.$(`status with definition id ${BondOfLife} at opp active`);
     if (bond) {
-      increasedValue = Math.min(4, bond.getVariable("usage"));
+      increasedValue = Math.min(3, bond.getVariable("usage"));
       c.consumeUsage(increasedValue, bond.state);
     }
     c.damage(DamageType.Physical, 2 + increasedValue);
@@ -62,12 +58,12 @@ export const InvitationToABeheading = skill(13141)
  * @id 13142
  * @name 万相化灰
  * @description
- * 在对方场上生成3层血偿勒令，然后造成2点火元素伤害。
+ * 在对方场上生成5层血偿勒令，然后造成2点火元素伤害。
  */
 export const AllIsAsh = skill(13142)
   .type("elemental")
   .costPyro(3)
-  .combatStatus(BlooddebtDirective, "opp") // 应该是在对方场上生成，否则说不通
+  .combatStatus(BlooddebtDirective, "opp")
   .damage(DamageType.Pyro, 2)
   .done();
 
@@ -80,7 +76,7 @@ export const AllIsAsh = skill(13142)
 export const BalemoonRising = skill(13143)
   .type("burst")
   .costPyro(3)
-  .costEnergy(2)
+  .costEnergy(3)
   .damage(DamageType.Pyro, 4)
   .do((c) => {
     const bond = c.$(`status with definition id ${BondOfLife} at my active`);
@@ -137,10 +133,10 @@ export const TheBalemoonAloneMayKnowPassive2 = skill(13147)
  * 
  */
 export const Arlecchino = character(1314)
-  .since("v5.3.51-beta")
+  .since("v5.3.52-beta")
   .tags("pyro", "pole", "fatui")
   .health(10)
-  .energy(2)
+  .energy(3)
   .skills(InvitationToABeheading, AllIsAsh, BalemoonRising, TheBalemoonAloneMayKnowPassive0)
   .done();
 
@@ -153,8 +149,8 @@ export const Arlecchino = character(1314)
  * （牌组中包含所有的仇与债皆由我偿还，才能加入牌组）
  */
 export const AllReprisalsAndArrearsMineToBear = card(213141)
-  .since("v5.3.51-beta")
-  .costPyro(1)
+  .since("v5.3.52-beta")
+  .costPyro(2)
   .talent(Arlecchino)
   .on("enter")
   .characterStatus(BondOfLife, "@master", {
