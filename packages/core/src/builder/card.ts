@@ -56,7 +56,7 @@ import {
   StatusHandle,
   SupportHandle,
 } from "./type";
-import { EntityBuilder } from "./entity";
+import { EntityBuilder, EntityBuilderPublic } from "./entity";
 import { GuessedTypeOfQuery } from "../query/types";
 import { GiTcgDataError } from "../error";
 import { costSize, diceCostSize, normalizeCost, Writable } from "../utils";
@@ -172,7 +172,9 @@ export class CardBuilder<
     return this;
   }
 
-  equipment<Q extends TargetQuery>(target: Q) {
+  equipment<Q extends TargetQuery>(
+    target: Q,
+  ): EntityBuilderPublic<"equipment"> {
     const cardId = this.cardId as EquipmentHandle;
     this.type("equipment")
       .addTarget(target)
@@ -183,7 +185,10 @@ export class CardBuilder<
         });
       })
       .done();
-    const builder = new EntityBuilder("equipment", cardId);
+    const builder = new EntityBuilder<"equipment", never, never, false, {}>(
+      "equipment",
+      cardId,
+    );
     builder._versionInfo = this._versionInfo;
     return builder;
   }
@@ -216,7 +221,7 @@ export class CardBuilder<
       .endOn();
   }
 
-  support(type: SupportTag | null) {
+  support(type: SupportTag | null): EntityBuilderPublic<"support"> {
     this.type("support");
     if (type !== null) {
       this.tags(type);
@@ -232,7 +237,10 @@ export class CardBuilder<
         withId: c.skillInfo.caller.id,
       });
     }).done();
-    const builder = new EntityBuilder("support", cardId);
+    const builder = new EntityBuilder<"support", never, never, false, {}>(
+      "support",
+      cardId,
+    );
     if (type !== null) {
       builder.tags(type);
     }
@@ -252,11 +260,13 @@ export class CardBuilder<
     this.do((c) => {
       c.combatStatus(id as CombatStatusHandle, where);
     }).done();
-    const builder = new EntityBuilder<"combatStatus", never, never, true>(
+    const builder = new EntityBuilder<
       "combatStatus",
-      id,
-      this.id,
-    );
+      never,
+      never,
+      true,
+      never
+    >("combatStatus", id, this.id);
     builder._versionInfo = this._versionInfo;
     return builder;
   }
@@ -273,7 +283,7 @@ export class CardBuilder<
     this.do((c) => {
       c.characterStatus(id as StatusHandle, target);
     }).done();
-    const builder = new EntityBuilder<"status", never, never, true>(
+    const builder = new EntityBuilder<"status", never, never, true, never>(
       "status",
       id,
       this.id,
