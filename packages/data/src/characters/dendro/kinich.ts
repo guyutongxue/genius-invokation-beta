@@ -34,33 +34,25 @@ import {
 export const GrappleLink = status(117091)
   .since("v5.3.52-beta")
   .duration(2)
+  .defineSnippet((c) => {
+    const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
+    if (nightsoul) {
+      c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
+      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
+        c.self.master().addStatus(GrapplePrepare);
+        c.consumeNightsoul("@master", 2);
+      }
+    }
+  })
   .on("damaged", (c, e) =>
     e.getReaction() === Reaction.Burning &&
     !c.of(e.target).isMine()
   )
   .listenToAll()
-  .do((c) => {
-    const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
-    if (nightsoul) {
-      c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
-        c.self.master().addStatus(GrapplePrepare);
-        c.consumeNightsoul("@master", 2);
-      }
-    }
-  })
+  .callSnippet()
   .on("useTechinque", (c, e) => e.skillCaller.id !== c.self.master().id)
   .listenToPlayer()
-  .do((c) => {
-    const nightsoul = c.self.master().hasStatus(NightsoulsBlessing);
-    if (nightsoul) {
-      c.addVariableWithMax("nightsoul", 1, 2, nightsoul);
-      if (c.of(nightsoul).getVariable("nightsoul") === 2) {
-        c.self.master().addStatus(GrapplePrepare);
-        c.consumeNightsoul("@master", 2);
-      }
-    }
-  })
+  .callSnippet()
   .done();
 
 /**
