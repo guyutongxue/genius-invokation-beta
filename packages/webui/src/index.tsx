@@ -50,8 +50,8 @@ const standaloneChessboardDefaultProps: StandaloneChessboardProps = {
   who: 0,
   mutations: [],
   previewData: null,
-  assetApiEndpoint: void 0,
-  assetAltText: void 0,
+  assetsApiEndpoint: void 0,
+  assetsAltText: void 0,
 };
 
 customElement(
