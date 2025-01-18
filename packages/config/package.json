@@ -2,10 +2,16 @@
   "name": "@gi-tcg/config",
   "private": true,
   "version": "0.0.0",
-  "main": "./main.ts",
+  "type": "module",
+  "main": "./dist/index.js",
   "exports": {
-    ".": "./main.ts",
-    "./vite_define": "./vite_define.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "bun": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
   },
-  "type": "module"
+  "scripts": {
+    "build": "tsup"
+  }
 }
