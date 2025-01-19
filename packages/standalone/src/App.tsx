@@ -32,14 +32,12 @@ import { Deck, decode, encode } from "@gi-tcg/utils";
 enum GameMode {
   NotStarted = 0,
   Standalone = 1,
-  MultiplayerHost = 2,
-  MultiplayerGuest = 3,
 }
 
 const INIT_DECK0 =
-  "FVDBw5gMFKARymoYFoCh8psPCSAQ9JcPCUBx9VcPFVBx9pMPGWEwArQTC7HRDDUQE8AA";
+  "FZDByRUNGRCB0WoNFlGgWpEPE0AB9TAPFGCB9kgWGIERCoEQDLFADcQQDPFgacYWDJAA";
 const INIT_DECK1 =
-  "GpBB2V4NGODB6acOGpBx8mEPCTBw85cPE0Ax9DMPFVBx9VcPC2FAO7QTC7HRC2cQDbAA";
+  "FdHxNj8TAWDQxFkMFkAhyWIYCYDA45wOCUDQ5J0PGEAh9IIPGWDh9p4YC6FgirYRCxAA";
 
 if (import.meta.env.DEV) {
   // Debug here!
