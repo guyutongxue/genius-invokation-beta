@@ -13,15 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  character,
-  skill,
-  card,
-  DamageType,
-  status,
-  summon,
-  Reaction,
-} from "@gi-tcg/core/builder";
+import { character, skill, card, DamageType, status, summon, Reaction } from "@gi-tcg/core/builder";
 
 /**
  * @id 117091
@@ -89,7 +81,7 @@ export const AlmightyDragonlordAjaw = summon(117093)
  */
 export const GrapplePrepare = status(117094)
   .since("v5.3.52-beta")
-  .on("beforeAction", (c) => c.self.master().isActive())
+  .once("beforeAction", (c) => c.self.master().isActive()) // 如果一直都打也太离谱了，先假设它只打一次
   .damage(DamageType.Dendro, 3, "recent opp from @master")
   .done();
 
