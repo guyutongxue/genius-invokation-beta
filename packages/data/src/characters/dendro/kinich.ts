@@ -42,7 +42,7 @@ export const GrappleLink = status(117091)
   )
   .listenToAll()
   .callSnippet()
-  .on("useTechinque", (c, e) => e.skillCaller.id !== c.self.master().id)
+  .on("useTechinque", (c, e) => e.techniqueCaller.id !== c.self.master().id)
   .listenToPlayer()
   .callSnippet()
   .done();
